@@ -112,6 +112,10 @@ Console.WriteLine(A || B);
 //Conditional and -> A가 false면 B가 뭐든 결과는 false -> B 안읽음
 Console.WriteLine(A && B);
 
+
+A |= B; //A = A|B; 잘 안씀 코드 가독성위해 쓰는 정도
+
+
 //비트 연산자
 //정수형에 대해서만 연산을 수행함
 //==========================================
