@@ -13,6 +13,16 @@ using System.Threading.Tasks;
 
 
 
+//namespace : 이름으로 메모리 공간을 식별하기위한 키워드
+//일반적인 namespace 작명 : 팀/회사 이름, 기술스택이름, 기타세부카테고리
+
+namespace ClassObjectInstance.UISystems.Characters
+{
+    internal class SwordMan
+    {
+
+    }
+}
 
 namespace ClassObjectInstance
 {
@@ -37,7 +47,7 @@ namespace ClassObjectInstance
 
         //클래스 생성자
         //정의하지 않아도 default 생성자가 생략되어있음
-        //해당 클래스 타입의 객체를 힙영역에 할당하고 해당 객체의 참조를 반환★
+        //해당 클래스 타입의 객체를 힙영역에 할당하고 해당 객체의 참조를 반환★ 객체에다 주소 넣고 그 주소로 가서 넣는 방식(간접적)
         public SwordMan() {
         }
 

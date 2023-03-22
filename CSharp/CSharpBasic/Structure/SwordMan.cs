@@ -6,18 +6,20 @@ using System.Threading.Tasks;
 
 namespace Structure
 {
+    
+
     internal struct SwordMan
     {
         //멤버 변수
-        String _name;
-        int _lv;
+        public String Name;
+        public int Lv;
         float _exp;
         char _gender;
 
         //멤버 함수
-        void Slash()
+        public void Slash()
         {
-            Console.WriteLine($"{_name} 이(가) 베기를 시전했다.");
+            Console.WriteLine($"{Name} 이(가) 베기를 시전했다.");
         }
     }
 }
