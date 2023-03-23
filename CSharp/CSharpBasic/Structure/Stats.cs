@@ -20,6 +20,7 @@ namespace Structure
 
     // 기본적으로 실수는 double 씀
     // 게임엔진에서는 double보다는 float 사용함. 벡터 등 연산할 때 크기 줄어들면 구조체 사용가능해서
+    // 축에 대한 연산 많이함 x,y,z축
 
     public struct Stats
     {
