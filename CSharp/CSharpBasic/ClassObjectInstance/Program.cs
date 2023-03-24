@@ -10,6 +10,7 @@ int a = 3;
 //멤버접근연산자
 swordMan1.Name = "짱짱";
 swordMan1.Lv = 1;
+swordMan1.Exp = 1.0f; //외부에서 보면 값을 직접 접근하는 것 같지만 내부적으로는 get set 통해서 안전
 
 swordMan2.Name = "똠양꿍";
 swordMan2.Lv = 2;

@@ -42,8 +42,56 @@ namespace ClassObjectInstance
         //멤버 변수
         public String Name;
         public int Lv;
+        //아래 Hp랑 Mp 같은내용
+        public int HP { get; private set; }
+        public int Mp
+        {
+            get
+            {
+                return _mp;
+            }
+            set
+            {
+                _mp = value;
+            }
+        }
+
+        //프로퍼티, 일일이 getset하면 찾기 힘듦
+        public float Exp
+        {
+            get
+            {
+                return _exp;
+            }
+            set //외부 set 접근 불가, get은 가능, get set 각각 접근지정 가능
+            {
+                if (value > _expMax)
+                {
+                    value = _expMax;
+                }
+                _exp = value;
+            }
+        }
+        private int _mp;
         private float _exp;
+        private float _expMax;
         private char _gender;
+
+        //private이라서 멤버변수에게 접근할 때 get set 필요 캡슐화를 위해서
+        public void setExp(float value)
+        {
+            if(value>_expMax)
+            {
+                value = _expMax;
+            }
+            _exp = value;
+        }
+
+        public float getExp()
+        {
+            //+ 현재 exp에 오류없는지 한번 검출하는 기능추가도 할 수 있음
+            return _exp;
+        }
 
         //클래스 생성자
         //정의하지 않아도 default 생성자가 생략되어있음

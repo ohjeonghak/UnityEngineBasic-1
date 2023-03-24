@@ -98,7 +98,7 @@ LayerMask targetMask = LayerMask.Enemy | LayerMask.NPC;
 
 Console.WriteLine(targetMask);
 
-if((1 << player.Layer & (int)targetMask)>0) //비트에 1 생기면 감지된거니까 값은 0보다 큼
+if((1 << player.Layer & (int)targetMask)>0) //비트마스크 연산. 비트에 1 생기면 감지된거니까 값은 0보다 큼
 {
 	Console.WriteLine("타겟감지");
 }

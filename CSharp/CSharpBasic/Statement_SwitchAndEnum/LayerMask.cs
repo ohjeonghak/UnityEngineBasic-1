@@ -21,7 +21,7 @@ namespace Statement_SwitchAndEnum
         Player = 1 << 2, //....00000100
         Ground = 1 << 3, //....00001000
         Wall = 1 << 4,   //....00010000
-        //EnemyNPC = NPC | Enemy //....00000011 비트별로 하나씩 주면(비트플래그) 값이 안겹침 중복X, int라서 비트 32개로만 표현가능
+        //EnemyNPC = NPC | Enemy //....00000011 비트별로 하나씩 주면(비트플래그 형태) 값이 안겹침 중복X, int라서 비트 32개로만 표현가능/마스크
     }
 
     public enum LayerMaskDummy
