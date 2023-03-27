@@ -17,9 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Statement_if", "Statement_i
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Statement_SwitchAndEnum", "Statement_SwitchAndEnum\Statement_SwitchAndEnum.csproj", "{D89AE61A-8504-4E01-8CA8-C7F773D4E66F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Statement_Loops", "Statement_Loops\Statement_Loops.csproj", "{C805BAAB-C192-47A5-B620-8C59C10ECE96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Statement_Loops", "Statement_Loops\Statement_Loops.csproj", "{C805BAAB-C192-47A5-B620-8C59C10ECE96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Array1D", "Array1D\Array1D.csproj", "{CA9AAC85-10A6-4251-8053-38042F3C38AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Array1D", "Array1D\Array1D.csproj", "{CA9AAC85-10A6-4251-8053-38042F3C38AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HorseRacing", "HorseRacing\HorseRacing.csproj", "{A194B381-8344-47FE-B66E-93A4B804AC2D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{CA9AAC85-10A6-4251-8053-38042F3C38AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA9AAC85-10A6-4251-8053-38042F3C38AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA9AAC85-10A6-4251-8053-38042F3C38AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A194B381-8344-47FE-B66E-93A4B804AC2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A194B381-8344-47FE-B66E-93A4B804AC2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A194B381-8344-47FE-B66E-93A4B804AC2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A194B381-8344-47FE-B66E-93A4B804AC2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

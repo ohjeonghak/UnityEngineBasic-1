@@ -14,12 +14,29 @@ intArr[0] = 1;
 //intArr[5] = 1;
 
 //***********************************************
-//메모리 어케 할당될지 그림 그려보기~~~~~~~~~
-Dummy[] dummies = new Dummy[3]; //Dummy 객체 3개가 아니라 Dummy를 객체를 참조할 수 있는 배열(공간 3개를 힙영역에 확보한 것)
+Dummy[] dummies = new Dummy[3]; //Dummy 객체 3개가 아니라 Dummy 객체를 참조할 수 있는 배열(공간 3개를 힙영역에 확보한 것)
 dummies[0] = new Dummy();
 dummies[1] = new Dummy();
 dummies[2] = new Dummy();
+
+int[][] intArrArr = new int[3][]; //int타입배열을 참조하는 크기 3개짜리 배열(배열의 배열)
+intArrArr[0] = new int[3];
+intArrArr[1] = new int[1];
+intArrArr[2] = new int[2];
+
+String name = "nang"; //String은 배열이 아니고 클래스
+Console.WriteLine(name[0]);
+Console.WriteLine(name[1]);
+Console.WriteLine(name[2]);
+Console.WriteLine(name[3]);
+
+for (int i = 0; i < name.Length; i++)
+{
+    Console.WriteLine(name[i]);
+}
+
 class Dummy
 {
     int a;
 }
+
