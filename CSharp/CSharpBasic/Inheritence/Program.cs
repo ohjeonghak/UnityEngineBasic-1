@@ -24,3 +24,4 @@ Character character1 = knight;
 Character character2 = wizard;
 character1.SayHi();
 character2.SayHi();
+

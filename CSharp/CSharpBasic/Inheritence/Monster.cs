@@ -24,7 +24,7 @@ namespace Inheritance
 
         public Monster(int hp)
         {
-            this.hp = hp;
+            this.hp = hp; 
         }
         public void Damage(IAttackable attacker, int value)
         {
