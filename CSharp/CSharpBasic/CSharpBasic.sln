@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Array2D", "Array2D\Array2D.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inheritance", "Inheritence\Inheritance.csproj", "{DD03DF98-1DAE-4C22-9C23-CBCDB9B44A25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collections", "MyDynamicArray\Collections.csproj", "{9584AE5B-DEF1-433F-A059-5EF69BB7C5EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Collections", "MyDynamicArray\Collections.csproj", "{9584AE5B-DEF1-433F-A059-5EF69BB7C5EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Delegate", "Delegate\Delegate.csproj", "{232053F6-8261-4874-B731-00EA2C12A5D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +89,10 @@ Global
 		{9584AE5B-DEF1-433F-A059-5EF69BB7C5EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9584AE5B-DEF1-433F-A059-5EF69BB7C5EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9584AE5B-DEF1-433F-A059-5EF69BB7C5EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{232053F6-8261-4874-B731-00EA2C12A5D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{232053F6-8261-4874-B731-00EA2C12A5D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{232053F6-8261-4874-B731-00EA2C12A5D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{232053F6-8261-4874-B731-00EA2C12A5D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

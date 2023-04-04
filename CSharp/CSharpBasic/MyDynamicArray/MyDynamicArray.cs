@@ -23,6 +23,19 @@ namespace Collections
                 return _count;
             }
         }
+
+        //인덱서 정의
+        public int this[int index]
+        {
+            get
+            {
+                return _data[index];
+            }
+            set
+            {
+                _data[index] = value;
+            }
+        }
         private const int DEFAULT_SIZE = 1;
         private int[] _data = new int[DEFAULT_SIZE];
         private int _count; //실제 데이터 크기
