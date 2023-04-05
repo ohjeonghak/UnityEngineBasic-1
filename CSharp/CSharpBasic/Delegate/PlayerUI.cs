@@ -12,9 +12,27 @@ namespace Delegate
 
         public PlayerUI(Player player)
         {
-            player.onHpChanged += Refresh; //Refresh 라는 함수를 OnHpChanged 대리자에 구독
-            //player.onHpChanged -= Refresh; //구독취소
+            //player.OnHpChanged += Refresh; //Refresh 라는 함수를 OnHpChanged 대리자에 구독
+           
+            //파라미터있는 람다식 표현
+            player.OnHpChanged += (hp) =>
+            {
+                HpText = hp.ToString();
+            };
+
+            //람다식 익명메소드(메소드 이름이 없어서 익명메소드)
+            player.OnHpMin += () =>
+            {
+                Refresh(0);
+            };
+            //player.OnHpChanged -= Refresh; //구독취소
             Refresh(player.Hp);
+
+            //익명 대리자
+            //delegate (int a, int b)
+            //{
+            //    return a + b;
+            //};
         }
 
         public void Draw()

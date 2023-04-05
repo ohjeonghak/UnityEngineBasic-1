@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,7 +26,7 @@ namespace Collections
         }
 
         //인덱서 정의
-        public int this[int index]
+        public object this[int index]
         {
             get
             {
@@ -37,19 +38,19 @@ namespace Collections
             }
         }
         private const int DEFAULT_SIZE = 1;
-        private int[] _data = new int[DEFAULT_SIZE];
+        private object[] _data = new object[DEFAULT_SIZE];
         private int _count; //실제 데이터 크기
     
         //동적배열의 삽입알고리즘
         //일반적인 경우에 O(1)
         //공간이 모자랄 경우에 기존 데이터를 전부 순회하면서 복제해야하기때문에 O(n) (데이터 n개일 때)
-        public void Add(int item)
+        public void Add(object item)
         {
             //삽입 공간이 모자랄 경우
             if(_count >= _data.Length)
             {
                 //1. 더 큰 크기의 새로운 배열을 만든다.
-                int[] tmp = new int[_data.Length + (int)Math.Ceiling(Math.Log10(_data.Length)) + DEFAULT_SIZE];
+                object[] tmp = new object[_data.Length + (int)Math.Ceiling(Math.Log10(_data.Length)) + DEFAULT_SIZE];
                 
                 //2. 기존 데이터를 복제한다.
                 for (int i = 0; i < _count; i++)
@@ -66,7 +67,7 @@ namespace Collections
 
         //탐색 알고리즘
         //O(n) 빅오 - 최악의 경우만 따짐, 데이터가 맨끝에 있거나 없는 경우가 최악, 맨 앞에 있다면 최선.O(1)
-        public bool Contains(int item)
+        public bool Contains(object item)
         {
             for (int i = 0; i < _count; i++)
             {
@@ -76,7 +77,7 @@ namespace Collections
             return false;
         }
 
-        public int FindIndex(int item)
+        public int FindIndex(object item)
         {
             for (int i = 0; i < _count; i++)
             {
@@ -84,6 +85,17 @@ namespace Collections
                     return i;
             }
             return -1;
+        }
+
+        public object Find(Predicate<object> match) //<>안에 비교하려는 대상의 타입을 받음
+        {
+            for (int i = 0; i < _count; i++)
+            {
+                if (match.Invoke(_data[i]))
+                    return _data[i];
+            }
+
+            return null;
         }
 
         //삭제 알고리즘
@@ -99,7 +111,7 @@ namespace Collections
             _data[_count] = default(int); //마지막 데이터 지워줌 앞으로 복제해준거니까 원래 있던거 지움
         }
 
-        public bool Remove(int item)
+        public bool Remove(object item)
         {
             int index = FindIndex(item);
 
