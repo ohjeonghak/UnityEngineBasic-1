@@ -1,11 +1,14 @@
 ﻿using Collections;
+using System.Collections;
+using System.Collections.Generic;
+
 
 //bool Match(int x)
 //{
 //    return x > 4;
 //}
-
-MyDynamicArray myDynamicArray= new MyDynamicArray();
+#region Dynamic Array
+MyDynamicArray myDynamicArray = new MyDynamicArray();
 myDynamicArray.Add(5);
 myDynamicArray.Add(3);
 myDynamicArray.Add(9);
@@ -31,3 +34,39 @@ obj = "안녕";
 obj = 'A';
 tmpValue = (int)obj; //unboxing : object 객체의 데이터를 내가 원하는 자료형으로 형변환하는 것
 //boxing unboxing 면접 질문★
+//장점 : 모든 타입을 캐스팅해서 쓸 수 있음, 단점 : int등으로 선언한거보다 연산 무거움, 단점 보완 : 제네릭사용
+
+
+MyDynamicArray<Dummy> dummies = new MyDynamicArray<Dummy>();
+MyDynamicArray<float> floats = new MyDynamicArray<float>();
+
+ArrayList arrayList = new ArrayList();
+arrayList.Add(3);
+arrayList.Add("철수");
+arrayList.Contains(3); //boxing 일어나서 못찾음
+
+//List가 훨씬 중요
+List<Dummy> list = new List<Dummy>();
+list.Add(new Dummy());
+list.Find(dummy => dummy.x < 0);
+
+
+
+#endregion
+
+class Dummy : IComparable<Dummy>
+{
+    public int x, y, z;
+    public int CompareTo(Dummy? other)
+    {
+        //어떤 조건 ? 조건이 참일 때 값 : 조건이 거짓일 때 값
+        return other != null && x == other.x && y == other.y && z == other.z ? 0 : -1;
+
+        if (other == null)
+            return -1;
+        if (x == other.x && y == other.y && z == other.z) 
+            return 0;
+        else
+            return -1;
+    }
+}
