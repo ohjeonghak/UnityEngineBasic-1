@@ -137,12 +137,52 @@ namespace Collections
         // 처음부터 끝까지 순회할 때 씀 자료구조마다 각각 안만들고 추상화해서 하려고(int 배열 char 배열 등 순회하는거 각각 따로 만들지x)
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return new Enumerator(this);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return new Enumerator(this);
+        }
+
+        public struct Enumerator : IEnumerator<T>
+        {
+            public T Current => _current;
+
+            object IEnumerator.Current => _current;
+
+            private MyDynamicArray<T> _outer;
+            private int _currentIndex;
+            private T? _current; // nullable 연산자, null 대입 가능한 것을 명시
+
+            public Enumerator(MyDynamicArray<T> outer)
+            {
+                _outer = outer;
+                _currentIndex = -1;
+                _current = default(T);
+            }
+
+            //보통 관리되지 않는 힙 영역의 메모리를 해제하거나
+            //.NET CLR의 Garbage Collector가 수거하는 걸 기다리지 않고 직접 수거해가라고 명령할 때
+            public void Dispose()
+            {
+            }
+
+            public bool MoveNext()
+            {
+                if (_currentIndex >= _outer.Count - 1)
+                    return false;
+
+                _currentIndex++;
+                _current = _outer._data[_currentIndex];
+                return true;
+            }
+
+            public void Reset()
+            {
+                _currentIndex= -1;
+                _current = default(T);
+            }
         }
     }
 }
