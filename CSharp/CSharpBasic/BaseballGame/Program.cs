@@ -38,11 +38,11 @@ while(count > 0)
     int outs = 0;
     int none = 0;
 
-    for (int i = 0; i < numTostring.Length; i++)
+    for (int i = 0; i < input2.Length; i++)
     {
-        for (int j = 0; j < input2.Length; j++)
+        for (int j = 0; j < numTostring.Length; j++)
         {
-            if (numTostring[i] == input2[j])
+            if (input2[i] == numTostring[j])
             {
                 if (i == j)
                 {
@@ -79,7 +79,7 @@ while(count > 0)
     {
         Console.WriteLine();
         Console.WriteLine("축하합니다. 이겼습니다.");
-        break;
+        return;
     }
 
     count--;
