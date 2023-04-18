@@ -1,67 +1,44 @@
-﻿using System;
-
-//string input = "425";
-
-//Console.WriteLine("input의 값은 : " + input);
-//Console.WriteLine("num의 타입은 : " + num.GetType);
-//Console.WriteLine("input의 타입은 : " + input.GetType);
-
-//Console.WriteLine(input[0]);
-//Console.WriteLine(numTostring[0]);
-
-int num = 832;
-string numToString = num.ToString();
-
-int count = 10;
-string input;
-
+﻿
 Random random= new Random();
-int randomNum = random.Next();
-string answer = randomNum.ToString();
 
+//배열로 중복없애기
+//int[] answer = new int[3];
 //for(int i = 0; i < answer.Length; i++)
 //{
-
-//}
-
-//int[] answerArray = new int[3];
-//for(int i = 0; i < answerArray.Length;i++)
-//{
-//    randomNum = random.Next(0,10);
-//    answerArray[i] = randomNum;
-  
-//    for(int j = 0; j<i;j++)
+//    answer[i] = random.Next(0, 10);
+//    for (int j = 0; j < i; j++)
 //    {
-//        if(answerArray[i] == answerArray[j])
+//        if (answer[i] == answer[j])
 //        {
 //            i--;
 //        }
-//    } 
+//    }
 //}
 
-//for(int i = 0; i<answerArray.Length;i++)
-//{
-//    Console.Write(answerArray[i]);
-//}
-
-//Console.WriteLine(answer);
+//자리 각각 비교해서 중복없애기
+string answerString;
+do
+{
+    answerString = random.Next(100, 1000).ToString();
+} while (answerString[0] == answerString[1] || answerString[0] == answerString[2] || answerString[1] == answerString[2]);
 
 Console.WriteLine("컴퓨터가 값을 생각했어요");
 Console.WriteLine();
 
+int count = 10;
+string input;
+//int input;
+
 //게임 루프
-while(count > 0)
+while (count > 0)
 {
     Console.Write("값을 입력하세요 : ");
     input = Console.ReadLine();
 
-    //int[] inputArray = input.ToArray<int>;
-
-    //for (int i = 0; i < inputArray.Length; i++)
-    //{
-    //    Console.Write(inputArray[i]);
-    //    Console.WriteLine();
-    //}
+    //배열로 중복체크할 때 아래처럼 정수 배열 만들어줌
+    //for문 돌 때 inputArray랑 answer 비교
+    //input = Convert.ToInt32(Console.ReadLine());
+    //int[] inputArray = { (input / 100) % 10, (input / 10) % 10, input % 10 };
 
     int strikes = 0;
     int balls = 0;
@@ -70,9 +47,9 @@ while(count > 0)
 
     for (int i = 0; i < input.Length; i++)
     {
-        for (int j = 0; j < answer.Length; j++)
+        for (int j = 0; j < answerString.Length; j++)
         {
-            if (input[i] == answer[j])
+            if (input[i] == answerString[j])
             {
                 if (i == j)
                 {
@@ -117,6 +94,12 @@ while(count > 0)
 if(count == 0)
 {
     Console.WriteLine("남은 기회가 없습니다. 졌습니다. ");
-    Console.WriteLine($"정답은 {answer} 이었습니다.");
+    //Console.Write("정답은 ");
+    //for (int i = 0; i < answer.Length; i++)
+    //{
+    //    Console.Write(answer[i]);
+    //}
+    //Console.WriteLine(" 이었습니다.");
+    Console.WriteLine($"정답은 {answerString} 이었습니다.");
 }
 
