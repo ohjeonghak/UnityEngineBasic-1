@@ -1,5 +1,8 @@
 ﻿// 카드 A(6으로 저장) 7 8 9 10 J(11) Q(12) K(13)
 // 클로버(c), 다이아(d), 하트(h), 스페이드(s)
+// 5장의 카드를 deck에서 랜덤으로 받아서 확인
+// 원하는 카드 1장을 변경하거나 그대로 게임을 진행 (둘 중에 선택)
+// 카드 비교 후 결과 출력 후 종료
 //                0      1      2      3      4      5      6      7
 string[] deck = {"06c", "07c", "08c", "09c", "10c", "11c", "12c", "13c",
                 "06d", "07d", "08d", "09d", "10d", "11d", "12d", "13d",
@@ -31,8 +34,6 @@ for (int i = 0; i < 5; i++)
 
 //Console.WriteLine(myCard[0].Substring(0,2));  // 문자열 나누기 : Substring(start index, length)
 
-//카드 출력하고 바꿀지말지 선택 후 비교하고 종료
-
 gameStart();
 
 void gameStart()
@@ -42,13 +43,6 @@ void gameStart()
     bool isStraight = false;
     int pair = 0;
 
-    //숫자와 모양 나누어서 저장
-    for (int i = 0; i < myCard.Count; i++)
-    {
-        myCardOnlyNum.Add(Convert.ToInt32(myCard[i].Substring(0, 2)));
-        myCardOnlyShape.Add(myCard[i].Substring(2, 1));
-    }
-
     //카드 출력
     Console.WriteLine("나의 카드는");
     for (int i = 0; i < myCard.Count; i++)
@@ -57,11 +51,13 @@ void gameStart()
     }
     Console.WriteLine();
     Console.WriteLine();
-
-    Console.WriteLine("카드를 변경하려면 c, 그대로 진행하려면 g를 입력하세요.");
-    string key = Console.ReadLine();
+    
     while (true)
     {
+        Console.WriteLine("카드를 변경하려면 c, 그대로 진행하려면 g를 입력하세요.");
+        string key = Console.ReadLine();
+        Console.WriteLine();
+
         if (key == "c")
         {
             changeCard();
@@ -77,6 +73,13 @@ void gameStart()
     }
     Console.WriteLine();
 
+    //숫자와 모양 나누어서 저장
+    for (int i = 0; i < myCard.Count; i++)
+    {
+        myCardOnlyNum.Add(Convert.ToInt32(myCard[i].Substring(0, 2)));
+        myCardOnlyShape.Add(myCard[i].Substring(2, 1));
+    }
+
     //모양 정렬
     myCardOnlyShape.Sort();
     //숫자 정렬
@@ -86,14 +89,12 @@ void gameStart()
     if (myCardOnlyShape[0] == myCardOnlyShape[myCardOnlyShape.Count - 1])
     {
         isFlush = true;
-        Console.WriteLine("플러쉬입니다.");
     }
 
     //마운틴 확인
     if (myCardOnlyNum[0] == 06 && myCardOnlyNum[1] == 10 && myCardOnlyNum[2] == 11 && myCardOnlyNum[3] == 12 && myCardOnlyNum[4] == 13)
     {
         isMount = true;
-        Console.WriteLine("마운틴입니다.");
     }
 
     //스트레이트 확인
@@ -103,7 +104,6 @@ void gameStart()
         if (myCardOnlyNum[i - 1] + 1 == myCardOnlyNum[i])
         {
             isStraight = true;
-            Console.WriteLine("스트레이트입니다.");
         }
         else
         {
@@ -124,6 +124,7 @@ void gameStart()
         }
     }
 
+    Console.WriteLine("***********결과는*************");
     //족보 완성 여부 체크
     if (isMount && isFlush)
     {
@@ -140,6 +141,18 @@ void gameStart()
     else if (pair == 4)
     {
         Console.WriteLine("풀하우스입니다.");
+    }
+    else if (isFlush)
+    {
+        Console.WriteLine("플러쉬입니다.");
+    }
+    else if (isMount)
+    {
+        Console.WriteLine("마운틴입니다.");
+    }
+    else if (isStraight)
+    {
+        Console.WriteLine("스트레이트입니다.");
     }
     else if (pair == 3)
     {
@@ -161,26 +174,33 @@ void gameStart()
 
 void changeCard()
 {
-    Console.WriteLine("변경하고 싶은 카드의 인덱스를 입력하세요.");
-    int input = Convert.ToInt32(Console.ReadLine());
+    int input;
+   
+    while(true)
+    {
+        Console.WriteLine("변경하고 싶은 카드의 인덱스를 입력하세요.");
+        input = Convert.ToInt32(Console.ReadLine());
+
+        if (input >=0 && input < myCard.Count)
+            break;
+        else
+        {
+            Console.WriteLine("인덱스 범위 밖입니다. 범위 내에서 입력하세요.");
+            Console.WriteLine();
+        }
+    }
    
     myCard.RemoveAt(input);
     myCard.Add(deck[cardIndex[cardIndex.Count-1]]);
 
-    myCardOnlyNum.Clear();
-    myCardOnlyShape.Clear();
+    //myCardOnlyNum.Clear();
+    //myCardOnlyShape.Clear();
     //for (int i = 0; i < myCard.Count; i++)
     //{
     //    myCardOnlyShape.RemoveAt(0);
     //}
 
-    //숫자와 모양 나누어서 저장
-    for (int i = 0; i < myCard.Count; i++)
-    {
-        myCardOnlyNum.Add(Convert.ToInt32(myCard[i].Substring(0, 2)));
-        myCardOnlyShape.Add(myCard[i].Substring(2, 1));
-    }
-
+    Console.WriteLine();
     Console.WriteLine("새로운 나의 카드는");
     for (int i = 0; i < myCard.Count; i++)
     {
