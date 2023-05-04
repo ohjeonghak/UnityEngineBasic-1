@@ -1,6 +1,4 @@
-﻿//족보 비교해서 없으면 끗수 계산
-//끗수 계산해서 비교
-
+﻿
 //                 0    1    2    3    4    5    6    7    8    9
 string[] deck = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", 
                   "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
@@ -16,45 +14,47 @@ Dictionary<string, int> jokbo = new Dictionary<string, int>()
     {"ab", 150}, {"aB", 150}, {"Ab", 150}, {"AB", 150}, //알리(1,2)
     {"aA", 200}, {"bB", 210}, {"cC", 220}, {"dD", 230}, {"eE", 240}, //땡
     {"fF", 250}, {"gG", 260}, {"hH", 270}, {"iI", 280}, {"jJ", 290}, //땡
-    {"AC", 350}, {"AH", 350}, //13광땡, 18광땡
-    {"CH", 500} //38광땡
+    {"AC", 500}, {"AH", 500}, //13광땡, 18광땡
+    {"CH", 1000} //38광땡
 };
 
 //deck 랜덤 섞기
-//string tempStr;
-//for (int i = 0; i < deck.Length; i++)
-//{
-//    Random rand = new Random();
-//    int a = rand.Next(0, deck.Length);
-//    tempStr = deck[i];
-//    deck[i] = deck[a];
-//    deck[a] = tempStr;
-//}
+string tempStr;
+for (int i = 0; i < deck.Length; i++)
+{
+    Random rand = new Random();
+    int a = rand.Next(0, deck.Length);
+    tempStr = deck[i];
+    deck[i] = deck[a];
+    deck[a] = tempStr;
+}
 
-//for (int i = 0; i < deck.Length; i++)
-//{
-//    Console.Write(deck[i]+" ");
-//}
-
-//player 4명 - 카드 2장씩 가짐
-//2장의 카드 배열 후 족보 체크, 점수를 매겨서 더 높은 쪽이 승리
+for (int i = 0; i < deck.Length; i++)
+{
+    Console.Write(deck[i]+" ");
+}
+Console.WriteLine();
+Console.WriteLine();
 
 List<string> player0 = new List<string>();
 List<string> computer1 = new List<string>();
 List<string> computer2 = new List<string>();
 List<string> computer3 = new List<string>();
 
+List<string> playerCardList = new List<string>();
+List<int> score = new List<int>();
+
 player0.Add(deck[1]);
 player0.Add(deck[5]);
 
-computer1.Add(deck[6]);
-computer1.Add(deck[18]);
+computer1.Add(deck[7]);
+computer1.Add(deck[17]);
 
-computer2.Add(deck[15]);
-computer2.Add(deck[9]);
+computer2.Add(deck[3]);
+computer2.Add(deck[6]);
 
 computer3.Add(deck[10]);
-computer3.Add(deck[3]);
+computer3.Add(deck[12]);
 
 player0.Sort();
 computer1.Sort();
@@ -64,110 +64,135 @@ computer3.Sort();
 Console.WriteLine("player0의 패");
 Console.Write(player0[0]);
 Console.WriteLine(player0[1]);
+Console.WriteLine();
 
 Console.WriteLine("computer1의 패");
 Console.Write(computer1[0]);
 Console.WriteLine(computer1[1]);
+Console.WriteLine();
 
 Console.WriteLine("computer2의 패");
 Console.Write(computer2[0]);
 Console.WriteLine(computer2[1]);
+Console.WriteLine();
 
 Console.WriteLine("computer3의 패");
 Console.Write(computer3[0]);
 Console.WriteLine(computer3[1]);
+Console.WriteLine();
 
 string concatPlayer0 = player0[0] + player0[1];
 string concatCom1 = computer1[0] + computer1[1];
 string concatCom2 = computer2[0] + computer2[1];
 string concatCom3 = computer3[0] + computer3[1];
 
-int scorePlayer0;
-int scoreCom1;
-int scoreCom2;
-int scoreCom3;
+playerCardList.Add(concatPlayer0);
+playerCardList.Add(concatCom1);
+playerCardList.Add(concatCom2);
+playerCardList.Add(concatCom3);
 
-int[] score = new int[4];
+int scorePlayer0=0;
+int scoreCom1=0;
+int scoreCom2=0;
+int scoreCom3 = 0;
 
-void Play()
+int result = -1;
+
+//플레이어와 컴퓨터 족보 체크 후 점수 넣기
+scorePlayer0 = CountScore(player0, concatPlayer0);
+scoreCom1 = CountScore(computer1, concatCom1);
+scoreCom2 = CountScore(computer2, concatCom2);
+scoreCom3 = CountScore(computer3, concatCom3);
+
+score.Add(scorePlayer0);
+score.Add(scoreCom1);
+score.Add(scoreCom2);
+score.Add(scoreCom3);
+
+bool isDDaeng = false;
+bool isGuangDDaeng = false;
+
+//땡잡이 체크
+for (int i = 0; i < score.Count; i++)
 {
-    int result = -5;
-
-    //플레이어 족보 체크
-    if(jokbo.ContainsKey(concatPlayer0))
-        scorePlayer0 = jokbo[concatPlayer0];
-    else
-        scorePlayer0 = AddCardNum(player0);
-
-    //컴퓨터 족보 체크
-    if (jokbo.ContainsKey(concatCom1))
-        scoreCom1 = jokbo[concatCom1];
-    else
-        scoreCom1 = AddCardNum(computer1);
-
-    if (jokbo.ContainsKey(concatCom2))
-        scoreCom2 = jokbo[concatCom2];
-    else
-        scoreCom2 = AddCardNum(computer2);
-
-    if (jokbo.ContainsKey(concatCom3))
-        scoreCom3 = jokbo[concatCom3];
-    else
-        scoreCom3 = AddCardNum(computer3);
-
-    score[0] = scorePlayer0;
-    score[1] = scoreCom1;
-    score[2] = scoreCom2;
-    score[3] = scoreCom3;
-
-    //땡잡이 체크
-    //for (int i = 0; i < score.Length; i++)
-    //{
-    //    if (score[i] >= 200 && score[i] <= 290)
-    //    {
-
-    //    }
-    //}
-    if (scorePlayer0>=200 && scorePlayer0 <=290)
+    if (score[i] >= 200 && score[i] <= 290)
     {
-        if (concatCom1 == "cG" || concatCom1 == "cg" || concatCom1 == "Cg" || concatCom1 == "CG")
+        isDDaeng= true;
+    }
+}
+if(isDDaeng)
+{
+    for (int j = 0; j < playerCardList.Count; j++)
+    {
+        if (playerCardList[j] == "cg" || playerCardList[j] == "cG" || playerCardList[j] == "Cg" || playerCardList[j] == "CG")
         {
-            scoreCom1 += 300;
+            score[j] = 410;
         }
     }
+}
 
-    //암행어사 체크
-    if(scorePlayer0 == 350)
+
+//암행어사 체크
+for (int i = 0; i < score.Count; i++)
+{
+    if (score[i] == 500)
     {
-        if(concatCom1 == "dg" || concatCom1 == "dG" || concatCom1 == "Dg" || concatCom1 == "DG")
+        isGuangDDaeng= true;
+    }
+}
+if (isGuangDDaeng)
+{
+    for (int j = 0; j < playerCardList.Count; j++)
+    {
+        if (playerCardList[j] == "dg" || playerCardList[j] == "dG" || playerCardList[j] == "Dg" || playerCardList[j] == "DG")
         {
-            scoreCom1 += 400;
+            score[j] = 750;
         }
     }
+}
 
-    //비교결과 저장
-    result = scorePlayer0.CompareTo(computer1);
 
-    switch (result)
-    {
-        case 1:
-            Console.WriteLine("player0의 점수 : "+scorePlayer0);
-            Console.WriteLine("computer1의 점수 : "+scoreCom1);
-            Console.WriteLine("player0의 승리");
-            break;
-        case 0:
-            Console.WriteLine("player0의 점수 : " + scorePlayer0);
-            Console.WriteLine("computer1의 점수 : " + scoreCom1);
-            Console.WriteLine("무승부");
-            break;
-        case -1:
-            Console.WriteLine("player0의 점수 : " + scorePlayer0);
-            Console.WriteLine("computer1의 점수 : " + scoreCom1);
-            Console.WriteLine("computer1의 승리");
-            break;
-        default:
-            break;
-    }
+for (int i = 0; i < score.Count; i++)
+{
+    Console.WriteLine("각자의 점수 : " + score[i]);
+}
+Console.WriteLine();
+
+//점수 배열 중 최댓값이 승리
+result = score.Max();
+switch (score.IndexOf(result))
+{
+    case 0:
+        Console.WriteLine("player0의 점수 : " + score[0]);
+        Console.WriteLine("player0 이(가) 이겼습니다.");
+        break;
+    case 1:
+        Console.WriteLine("computer1의 점수 : " + score[1]);
+        Console.WriteLine("computer1 이(가) 이겼습니다.");
+        break;
+    case 2:
+        Console.WriteLine("computer2의 점수 : " + score[2]);
+        Console.WriteLine("computer2 이(가) 이겼습니다.");
+        break;
+    case 3:
+        Console.WriteLine("computer3의 점수 : " + score[3]);
+        Console.WriteLine("computer3 이(가) 이겼습니다.");
+        break;
+    default:
+        break;
+}
+
+//족보있으면 족보대로 점수, 없으면 끗수계산해서 점수 계산
+int CountScore(List<string> myCard, string myConcat)
+{
+    int myScore = 0;
+
+    if (jokbo.ContainsKey(myConcat))
+        myScore = jokbo[myConcat];
+    else
+        myScore = AddCardNum(myCard);
+
+    return myScore;
 }
 
 //끗수 계산
