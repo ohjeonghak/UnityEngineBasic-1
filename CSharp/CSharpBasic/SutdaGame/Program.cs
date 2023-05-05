@@ -1,4 +1,5 @@
-﻿
+﻿using SutdaGame;
+
 //                 0    1    2    3    4    5    6    7    8    9
 string[] deck = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", 
                   "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
@@ -36,152 +37,229 @@ for (int i = 0; i < deck.Length; i++)
 Console.WriteLine();
 Console.WriteLine();
 
-List<string> player0 = new List<string>();
-List<string> computer1 = new List<string>();
-List<string> computer2 = new List<string>();
-List<string> computer3 = new List<string>();
-
-List<string> playerCardList = new List<string>();
-List<int> score = new List<int>();
-
-player0.Add(deck[1]);
-player0.Add(deck[5]);
-
-computer1.Add(deck[7]);
-computer1.Add(deck[17]);
-
-computer2.Add(deck[3]);
-computer2.Add(deck[6]);
-
-computer3.Add(deck[10]);
-computer3.Add(deck[12]);
-
-player0.Sort();
-computer1.Sort();
-computer2.Sort();
-computer3.Sort();
-
-Console.WriteLine("player0의 패");
-Console.Write(player0[0]);
-Console.WriteLine(player0[1]);
-Console.WriteLine();
-
-Console.WriteLine("computer1의 패");
-Console.Write(computer1[0]);
-Console.WriteLine(computer1[1]);
-Console.WriteLine();
-
-Console.WriteLine("computer2의 패");
-Console.Write(computer2[0]);
-Console.WriteLine(computer2[1]);
-Console.WriteLine();
-
-Console.WriteLine("computer3의 패");
-Console.Write(computer3[0]);
-Console.WriteLine(computer3[1]);
-Console.WriteLine();
-
-string concatPlayer0 = player0[0] + player0[1];
-string concatCom1 = computer1[0] + computer1[1];
-string concatCom2 = computer2[0] + computer2[1];
-string concatCom3 = computer3[0] + computer3[1];
-
-playerCardList.Add(concatPlayer0);
-playerCardList.Add(concatCom1);
-playerCardList.Add(concatCom2);
-playerCardList.Add(concatCom3);
-
-int scorePlayer0=0;
-int scoreCom1=0;
-int scoreCom2=0;
-int scoreCom3 = 0;
-
+//필요한 변수 선언
 int result = -1;
-
-//플레이어와 컴퓨터 족보 체크 후 점수 넣기
-scorePlayer0 = CountScore(player0, concatPlayer0);
-scoreCom1 = CountScore(computer1, concatCom1);
-scoreCom2 = CountScore(computer2, concatCom2);
-scoreCom3 = CountScore(computer3, concatCom3);
-
-score.Add(scorePlayer0);
-score.Add(scoreCom1);
-score.Add(scoreCom2);
-score.Add(scoreCom3);
-
 bool isDDaeng = false;
 bool isGuangDDaeng = false;
+int maxScore = 0;
+
+//플레이어 객체 4개 생성
+Player[] players = new Player[4];
+
+for (int i = 0; i < players.Length; i++)
+{
+    players[i] = new Player();
+    players[i].name = "플레이어" + (i + 1);
+}
+
+//테스트
+//players[0].Cards.Add(deck[1]);
+//players[0].Cards.Add(deck[11]);
+
+//players[1].Cards.Add(deck[2]);
+//players[1].Cards.Add(deck[16]);
+
+//players[2].Cards.Add(deck[10]);
+//players[2].Cards.Add(deck[12]);
+
+//players[3].Cards.Add(deck[3]);
+//players[3].Cards.Add(deck[6]);
+
+
+//카드 분배 후 점수 계산
+for (int i = 0;i < players.Length; i++)
+{
+    //각자 카드 두장씩 나눠주기 (deck을 랜덤으로 섞은 후 앞에서부터 두장씩 나눠줌)
+    players[i].Cards.Add(deck[i * 2]);
+    players[i].Cards.Add(deck[i * 2 + 1]);
+
+    //받은 카드를 정렬 후
+    players[i].Cards.Sort();
+
+    //합쳐서 concat에 넣기
+    players[i].Concat = players[i].Cards[0] + players[i].Cards[1];
+
+    //족보 체크 후 점수 저장하기
+    players[i].Score = CountScore(players[i].Cards, players[i].Concat);
+
+    Console.WriteLine($"players{i}의 정보");
+    Console.WriteLine(players[i].Concat);
+    Console.WriteLine(players[i].Score);
+    Console.WriteLine();
+}
+
+//클래스없이 짠 코드 ▼
+#region
+
+//각자 카드 2장씩 넣을 리스트
+//List<string> player0 = new List<string>();
+//List<string> computer1 = new List<string>();
+//List<string> computer2 = new List<string>();
+//List<string> computer3 = new List<string>();
+
+//모든 플레이어의 카드를 concat 후 다 넣을 리스트
+//List<string> playerCardList = new List<string>();
+//모든 플레이어의 점수를 저장할 리스트
+//List<int> score = new List<int>();
+
+//player0.Add(deck[0]);
+//player0.Add(deck[1]);
+
+//computer1.Add(deck[2]);
+//computer1.Add(deck[3]);
+
+//computer2.Add(deck[4]);
+//computer2.Add(deck[5]);
+
+//computer3.Add(deck[6]);
+//computer3.Add(deck[7]);
+
+//player0.Sort();
+//computer1.Sort();
+//computer2.Sort();
+//computer3.Sort();
+
+//Console.WriteLine("player0의 패");
+//Console.Write(player0[0]);
+//Console.WriteLine(player0[1]);
+//Console.WriteLine();
+
+//Console.WriteLine("computer1의 패");
+//Console.Write(computer1[0]);
+//Console.WriteLine(computer1[1]);
+//Console.WriteLine();
+
+//Console.WriteLine("computer2의 패");
+//Console.Write(computer2[0]);
+//Console.WriteLine(computer2[1]);
+//Console.WriteLine();
+
+//Console.WriteLine("computer3의 패");
+//Console.Write(computer3[0]);
+//Console.WriteLine(computer3[1]);
+//Console.WriteLine();
+
+//string concatPlayer0 = player0[0] + player0[1];
+//string concatCom1 = computer1[0] + computer1[1];
+//string concatCom2 = computer2[0] + computer2[1];
+//string concatCom3 = computer3[0] + computer3[1];
+
+//playerCardList.Add(concatPlayer0);
+//playerCardList.Add(concatCom1);
+//playerCardList.Add(concatCom2);
+//playerCardList.Add(concatCom3);
+
+//int scorePlayer0=0;
+//int scoreCom1=0;
+//int scoreCom2=0;
+//int scoreCom3 = 0;
+
+//플레이어의 족보 체크 후 점수 넣기
+//scorePlayer0 = CountScore(player0, concatPlayer0);
+//scoreCom1 = CountScore(computer1, concatCom1);
+//scoreCom2 = CountScore(computer2, concatCom2);
+//scoreCom3 = CountScore(computer3, concatCom3);
+
+//score.Add(scorePlayer0);
+//score.Add(scoreCom1);
+//score.Add(scoreCom2);
+//score.Add(scoreCom3);
+
+//result = score.Max();
+
+#endregion
 
 //땡잡이 체크
-for (int i = 0; i < score.Count; i++)
+for (int i = 0; i < players.Length; i++)
 {
-    if (score[i] >= 200 && score[i] <= 290)
+    if (players[i].Score >= 200 && players[i].Score <= 290)
     {
         isDDaeng= true;
     }
 }
 if(isDDaeng)
 {
-    for (int j = 0; j < playerCardList.Count; j++)
+    for (int i = 0; i < players.Length; i++)
     {
-        if (playerCardList[j] == "cg" || playerCardList[j] == "cG" || playerCardList[j] == "Cg" || playerCardList[j] == "CG")
+        if (players[i].Concat == "cg" || players[i].Concat == "cG" || players[i].Concat == "Cg" || players[i].Concat == "CG")
         {
-            score[j] = 410;
+            players[i].Score = 410;
+            players[i].DdaengWin = true;
         }
     }
 }
 
-
 //암행어사 체크
-for (int i = 0; i < score.Count; i++)
+for (int i = 0; i < players.Length; i++)
 {
-    if (score[i] == 500)
+    if (players[i].Score == 500)
     {
         isGuangDDaeng= true;
     }
 }
 if (isGuangDDaeng)
 {
-    for (int j = 0; j < playerCardList.Count; j++)
+    for (int i = 0; i < players.Length; i++)
     {
-        if (playerCardList[j] == "dg" || playerCardList[j] == "dG" || playerCardList[j] == "Dg" || playerCardList[j] == "DG")
+        if (players[i].Concat == "dg" || players[i].Concat == "dG" || players[i].Concat == "Dg" || players[i].Concat == "DG")
         {
-            score[j] = 750;
+            players[i].Score= 750;
+            players[i].GuangWin = true;
         }
     }
 }
 
-
-for (int i = 0; i < score.Count; i++)
+for (int i = 0; i < players.Length; i++)
 {
-    Console.WriteLine("각자의 점수 : " + score[i]);
+    Console.WriteLine($"{players[i].name}의 최종 점수 : {players[i].Score}");
 }
 Console.WriteLine();
 
 //점수 배열 중 최댓값이 승리
-result = score.Max();
-switch (score.IndexOf(result))
+for (int i = 0; i < players.Length; i++)
+{
+    if (players[i].Score > maxScore)
+    {
+        maxScore = players[i].Score;
+        result = i;
+    }
+}
+
+//결과 출력
+switch (result)
 {
     case 0:
-        Console.WriteLine("player0의 점수 : " + score[0]);
-        Console.WriteLine("player0 이(가) 이겼습니다.");
+        Console.WriteLine($"{players[0].name}의 점수 : {players[0].Score}");
+        Console.WriteLine($"{players[0].name}이(가) 이겼습니다.");
         break;
     case 1:
-        Console.WriteLine("computer1의 점수 : " + score[1]);
-        Console.WriteLine("computer1 이(가) 이겼습니다.");
+        Console.WriteLine($"{players[1].name}의 점수 : {players[1].Score}");
+        Console.WriteLine($"{players[1].name}이(가) 이겼습니다.");
         break;
     case 2:
-        Console.WriteLine("computer2의 점수 : " + score[2]);
-        Console.WriteLine("computer2 이(가) 이겼습니다.");
+        Console.WriteLine($"{players[2].name}의 점수 : {players[2].Score}");
+        Console.WriteLine($"{players[2].name}이(가) 이겼습니다.");
         break;
     case 3:
-        Console.WriteLine("computer3의 점수 : " + score[3]);
-        Console.WriteLine("computer3 이(가) 이겼습니다.");
+        Console.WriteLine($"{players[3].name}의 점수 : {players[3].Score}");
+        Console.WriteLine($"{players[3].name}이(가) 이겼습니다.");
         break;
     default:
         break;
 }
 
+Console.WriteLine();
+
+for (int i = 0; i < players.Length; i++)
+{
+    if (players[i].DdaengWin)
+        Console.WriteLine($"{players[i].name}은(는) 땡잡이였습니다.");
+    else if (players[i].GuangWin)
+        Console.WriteLine($"{players[i].name}은(는) 암행어사였습니다.");
+}
+
+
+//점수 계산하는 함수
 //족보있으면 족보대로 점수, 없으면 끗수계산해서 점수 계산
 int CountScore(List<string> myCard, string myConcat)
 {
@@ -195,7 +273,7 @@ int CountScore(List<string> myCard, string myConcat)
     return myScore;
 }
 
-//끗수 계산
+//끗수 계산하는 함수
 //1+9, 2+8, 3+7, 4+6, 5+5 -> 망통 제일 낮은 점수
 //인덱스 더한 수의 일의자리 = 8 이면 망통 (2차이남)
 //[0]이랑 같은 애 찾았으면 또 deck이랑 비교할 필요 없음 남은 애만 비교해서 찾으면 됨 - 어케해 => 루프 바깥이랑 안쪽 반대로 썼음
