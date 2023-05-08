@@ -19,6 +19,16 @@ Dictionary<string, int> jokbo = new Dictionary<string, int>()
     {"CH", 1000} //38광땡
 };
 
+Dictionary<int, string> jokboNameOfScore = new Dictionary<int, string>()
+{
+    {10,"0끗"}, {15, "1끗"}, {20, "2끗"}, {25, "3끗"}, {30, "4끗"}, {35,"5끗"},
+    {40, "6끗"}, {45, "7끗"}, {50, "8끗"}, {55, "9끗"},
+    {100, "세륙(4,6)"}, {110, "장사(4,10)"} ,{120, "장삥(1,10)"}, {130, "구삥(1,9)"},
+    {140,"독사(1,4)"}, {150, "알리(1,2)"}, {200,"1땡"}, {210,"2땡"}, {220, "3땡"},
+    {230,"4땡"}, {240, "5땡"}, {250, "6땡"}, {260,"7땡"},{270,"8땡"},{280,"9땡"},{290,"10땡(장땡)"},
+    {500, "광땡"}, {1000, "38광땡"}, {410,"땡잡이"}, {750,"암행어사"}
+};
+
 //deck 랜덤 섞기
 string tempStr;
 for (int i = 0; i < deck.Length; i++)
@@ -29,13 +39,6 @@ for (int i = 0; i < deck.Length; i++)
     deck[i] = deck[a];
     deck[a] = tempStr;
 }
-
-for (int i = 0; i < deck.Length; i++)
-{
-    Console.Write(deck[i]+" ");
-}
-Console.WriteLine();
-Console.WriteLine();
 
 //필요한 변수 선언
 int result = -1;
@@ -53,8 +56,9 @@ for (int i = 0; i < players.Length; i++)
 }
 
 //테스트
+#region
 //players[0].Cards.Add(deck[1]);
-//players[0].Cards.Add(deck[11]);
+//players[0].Cards.Add(deck[0]);
 
 //players[1].Cards.Add(deck[2]);
 //players[1].Cards.Add(deck[16]);
@@ -64,7 +68,7 @@ for (int i = 0; i < players.Length; i++)
 
 //players[3].Cards.Add(deck[3]);
 //players[3].Cards.Add(deck[6]);
-
+#endregion
 
 //카드 분배 후 점수 계산
 for (int i = 0;i < players.Length; i++)
@@ -82,9 +86,26 @@ for (int i = 0;i < players.Length; i++)
     //족보 체크 후 점수 저장하기
     players[i].Score = CountScore(players[i].Cards, players[i].Concat);
 
-    Console.WriteLine($"players{i}의 정보");
-    Console.WriteLine(players[i].Concat);
-    Console.WriteLine(players[i].Score);
+    if (players[i].Concat == "AC")
+        players[i].myJokbo = "13" + jokboNameOfScore[players[i].Score];
+
+    else if (players[i].Concat == "AH")
+        players[i].myJokbo = "18" + jokboNameOfScore[players[i].Score];
+
+    else if (players[i].Concat == "cg" || players[i].Concat == "cG" || players[i].Concat == "Cg" || players[i].Concat == "CG")
+        players[i].myJokbo = jokboNameOfScore[players[i].Score] + " or 땡잡이";
+
+    else if (players[i].Concat == "dg" || players[i].Concat == "dG" || players[i].Concat == "Dg" || players[i].Concat == "DG")
+        players[i].myJokbo = jokboNameOfScore[players[i].Score] + " or 암행어사";
+
+    else
+        players[i].myJokbo = jokboNameOfScore[players[i].Score];
+
+
+    Console.WriteLine($"{players[i].name}의 정보");
+    Console.WriteLine("카드 : " + players[i].Concat);
+    Console.WriteLine("점수 : " + players[i].Score);
+    Console.WriteLine("족보 : " + players[i].myJokbo);
     Console.WriteLine();
 }
 
@@ -172,7 +193,7 @@ for (int i = 0;i < players.Length; i++)
 //땡잡이 체크
 for (int i = 0; i < players.Length; i++)
 {
-    if (players[i].Score >= 200 && players[i].Score <= 290)
+    if (players[i].Score >= 200 && players[i].Score <= 280)
     {
         isDDaeng= true;
     }
@@ -209,9 +230,23 @@ if (isGuangDDaeng)
     }
 }
 
+Console.WriteLine("***************** 결과 *******************");
+Console.WriteLine();
+
 for (int i = 0; i < players.Length; i++)
 {
     Console.WriteLine($"{players[i].name}의 최종 점수 : {players[i].Score}");
+
+    if (players[i].DdaengWin)
+    {
+        Console.WriteLine($"{players[i].name}은(는) 땡잡이였습니다.");
+    }
+    else if (players[i].GuangWin)
+    {
+        Console.WriteLine($"{players[i].name}은(는) 암행어사였습니다.");
+
+    }
+    Console.WriteLine();
 }
 Console.WriteLine();
 
@@ -229,35 +264,22 @@ for (int i = 0; i < players.Length; i++)
 switch (result)
 {
     case 0:
-        Console.WriteLine($"{players[0].name}의 점수 : {players[0].Score}");
-        Console.WriteLine($"{players[0].name}이(가) 이겼습니다.");
+        Console.WriteLine($"★ {players[0].name}이(가) {players[0].Score}점으로 이겼습니다. ★");
         break;
     case 1:
-        Console.WriteLine($"{players[1].name}의 점수 : {players[1].Score}");
-        Console.WriteLine($"{players[1].name}이(가) 이겼습니다.");
+        Console.WriteLine($"★ {players[1].name}이(가) {players[1].Score}점으로 이겼습니다. ★");
         break;
     case 2:
-        Console.WriteLine($"{players[2].name}의 점수 : {players[2].Score}");
-        Console.WriteLine($"{players[2].name}이(가) 이겼습니다.");
+        Console.WriteLine($"★ {players[2].name}이(가) {players[2].Score}점으로 이겼습니다. ★");
         break;
     case 3:
-        Console.WriteLine($"{players[3].name}의 점수 : {players[3].Score}");
-        Console.WriteLine($"{players[3].name}이(가) 이겼습니다.");
+        Console.WriteLine($"★ {players[3].name}이(가) {players[3].Score}점으로 이겼습니다. ★");
         break;
     default:
         break;
 }
 
 Console.WriteLine();
-
-for (int i = 0; i < players.Length; i++)
-{
-    if (players[i].DdaengWin)
-        Console.WriteLine($"{players[i].name}은(는) 땡잡이였습니다.");
-    else if (players[i].GuangWin)
-        Console.WriteLine($"{players[i].name}은(는) 암행어사였습니다.");
-}
-
 
 //점수 계산하는 함수
 //족보있으면 족보대로 점수, 없으면 끗수계산해서 점수 계산

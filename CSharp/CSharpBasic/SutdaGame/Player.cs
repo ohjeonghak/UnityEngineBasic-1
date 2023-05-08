@@ -14,12 +14,14 @@ namespace SutdaGame
         //광땡 유무?
         //점수
         //concat
+        //족보 이름
 
-        public string name;
+        public string? name;
+        public string? myJokbo;
         List<string> _cards = new List<string>();
         bool _ddaengWin;
         bool _guangWin;
-        string _concatCard;
+        string? _concatCard;
         int _score;
 
         public List<string> Cards
