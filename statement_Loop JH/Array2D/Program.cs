@@ -110,13 +110,13 @@
                 return;
             }
 
-            map[y, x] = 6;
-            map[y, x] = -1;
+            map[y, x] = 5;
+            map[y, x] = 0;
             DisplayMap();
         }
         static void MoveDown()
         {
-            if (y >= map.GetLength(1) - 1)
+            if (y >= map.GetLength(0) + 1)
             {
                 Console.WriteLine("해당 방향으로 움직일 수 없습니다. 맵의 경계를 벗어납니다");
                 return;
@@ -128,11 +128,11 @@
                 return;
             }
 
-            map[y--, x] = 6;
-            map[y, x] = -1;
+            map[y, x] = 5;
+            map[y--, x] = 0;
             DisplayMap();
-
         }
     }
 
 }
+                                                                                                                                                                                                                                                                    
