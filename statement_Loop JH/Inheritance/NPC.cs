@@ -10,9 +10,10 @@ namespace Inheritance
     // 자식클래스이름 : 부모클래스이름
     internal class NPC : Creature
     {
+        public int Id;
         public void Interaction()
         {
-            Console.WriteLine("NPC 와의 상홓장용 시작"); 
+            Console.WriteLine("NPC 와의 상호장용 시작"); 
         }
 
         // override 재정의 키워드
