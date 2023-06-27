@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using System.Xml.Serialization;
 
 namespace Inheritance
 {
@@ -9,16 +10,25 @@ namespace Inheritance
             Knight knight = new Knight();
             knight.hp = 10;
             HpBar knightHpBar = new HpBar();
-
+            IDamageable damageable = knight;
             knight.onHpChanged += knightHpBar.Refresh;
             knight.onHpChanged += knightHpBar.Refresh;
             knight.onHpChanged += knightHpBar.Refresh;
             knight.onHpChanged += knightHpBar.Refresh;
             //knight.onHpChanged = knightHpBar.Refresh;
+            
+            // 람다식표현의 예
             knight.onHpChanged += (value) =>
             {
                 Console.WriteLine(value);
             };
+            // 익명함수
+            // (value) =>
+            //    {
+            //        Console.WriteLine(value);
+            //    };
+            // 람다식 표현
+            // 컴파일러가 알아서 유추할 수 있는 내용을 모두 지운뒤. => 이 기호로 람다식이라는 명시만 해주면 된다.
             while (true)
             {
                 knight.hp -= 1;
@@ -64,8 +74,35 @@ namespace Inheritance
                 if (charcacters[i] is Knight)
                     Console.WriteLine("기사 발견");
             }
+
+
         }
-        // 익명함수
-        
+        public void Test()
+        {
+            PrintSomething(3);
+            PrintSomething<double>(3);
+        }
+
+        public void PrintSomething(int value)
+        {
+            Console.WriteLine(value);
+        }
+        public void PrintSomething(float value)
+        {
+            Console.WriteLine(value);
+        }
+        public void PrintSomething(string value)
+        {
+            Console.WriteLine(value);
+        }
+        public void PrintSomething(int value1, string value2)
+        {
+            Console.WriteLine(value1 + value2);
+        }
+
+        public void PrintSomething<T>(T value)
+        {
+            Console.WriteLine(value);
+        }
     }
 }
