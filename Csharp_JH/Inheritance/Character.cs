@@ -38,16 +38,27 @@ namespace Inheritance
         }
 
         private float _hp;
-        public delegate void HpChangedHandler(float value); // delegate : 대리자
-        public event HpChangedHandler onHpChanged; 
+        public delegate void HpChangedHandler(float value); // delegate : 대리자 <특별하게 제공해야하는 정보를 쓸떄 쓰는게 좋음>
+        public event HpChangedHandler onHpChanged;          // 함수 체이닝을 참조한다.
+        public delegate void SomeHandler<in T1, in T2>(T1 value1, T2 value2);
+        public event SomeHandler<double, int> onSomeChanged;
         // event : 한정자
         // 대리자의 접근 제한을 위한 한정자
         // +=, -= (구독 / 구독취소) 는 외부 클래스에서 호출 가능.
         // 구동에 대한 표현 : Register, Observe, Listen, Subscribe 다 똑같은 말
         // event 를 호출한다는 표현 : Notify (구독자들에게 알림통보)
         // = 는 접근 불가능
+        public event Action action1;
+        public event Action<float> action2;
+        public event Action<int, string> action3;
 
-     
+        public event Func<int> func1;
+        public event Func<float, int> func2;
+        public event Func<float, double, int> func3;
+        public event Func<int, bool> func4;
+
+        public event Predicate<int> predicate; // = func<int, bool>
+        
 
         //public float GetHp()
         //{

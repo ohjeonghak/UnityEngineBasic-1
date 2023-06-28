@@ -81,6 +81,17 @@ namespace Inheritance
         {
             PrintSomething(3);
             PrintSomething<double>(3);
+            PrintSomething<long>(3);
+            // Generic 타입 자체가 코드영역에 할당되는게 아니고
+            // (런타임중에 제네릭참조해서 새로운 함수를 만들어서 스택영역에 쌓는게 아님)
+            // 컴파일타임에 컴파일러가 사용되고 있는 형태를 함수로 새로 만들어서 코드영역에 할당함.
+            // ex) Something<T>() 함수가 있고, Something<int>() 라는 함수호출을 어딘가에서 하고 있으면
+            // 컴파일타임에 Something<int>() 를 만든다.
+
+            Dummy<int> dummy1 = new Dummy<int>();
+            Dummy<float> dummy2 = new Dummy<float>();
+            Dummy<Knight> dummy3 = new Dummy<Knight>();
+            Dummy<IDamageable> dummy4 = new Dummy<IDamageable>();
         }
 
         public void PrintSomething(int value)
@@ -100,9 +111,30 @@ namespace Inheritance
             Console.WriteLine(value1 + value2);
         }
 
+        // 제네릭 예시
         public void PrintSomething<T>(T value)
         {
             Console.WriteLine(value);
+        }
+    }
+
+    //제네릭 클래스
+    //제네릭 : 타입을 정의 할 수 있는 형태를 정의하는 형식 (타입을 일반화 할 수 있는 형식)
+    //<> 안에 아무거나 써도 다 됨.
+     public class Dummy<T>
+    {
+        public T Value;
+
+        public void SaySomething()
+        {
+            T value = Value;
+            What<int>();
+            What<T>();
+        }
+
+        public void What<K>()
+        {
+
         }
     }
 }
