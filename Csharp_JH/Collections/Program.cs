@@ -41,14 +41,21 @@ namespace Collections
             }
 
             MyDynamicArray myDynamicArray = new MyDynamicArray();
+            myDynamicArray.Add(2);
+            myDynamicArray.Add(5);
+            myDynamicArray.Add(3);
+            myDynamicArray.Add(6);
+
             IEnumerator e1 = myDynamicArray.GetEnumerator();
-            Console.WriteLine(e1.Current);
-            e1.MoveNext();
-            Console.WriteLine(e1.Current);
-            e1.MoveNext();
-            Console.WriteLine(e1.Current);
-            e1.MoveNext();
-            Console.WriteLine(e1.Current);
-        }
+            while (e1.MoveNext())
+            {
+                Console.WriteLine(e1.Current);
+            }
+            e1.Reset();
+
+            
+            
+            
+            
     }
 }

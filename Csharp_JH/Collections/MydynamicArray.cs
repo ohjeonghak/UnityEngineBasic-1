@@ -9,9 +9,10 @@ namespace Collections
 {
     internal class MyDynamicArray : IEnumerable// 면접이나 실사를 많이 하기 때문에 연습 많이 하시길
     {
+        private static int DEFAULT_SIZE = 1;
         public int Lenght => _lenght;
         public int Capacity => _items.Length;
-        private object[] _items;
+        private object[] _items; = new object[DEFAULT_SIZE];
         private int _lenght;
 
         /// <summary>
@@ -80,7 +81,17 @@ namespace Collections
             //    yield return _items[i];  
             //}
         }
+        public IEnumerator GetEnumerator()
+        {
+            
+            for (int i = 0; i < _length; i++)
+            {
+                yield return _items[i];
+            }
+        }
+  
     }
+}
     // Enumerating 중요(까먹지마)
     // 핵심요소 :1. 현재 가리키고 있는 아이템, 2. 그다음 아이템으로 넘어가는 기능, 3. 가르키고 있는 위치를 초기화하는 기능
     // interface > 1) IEnumerator
