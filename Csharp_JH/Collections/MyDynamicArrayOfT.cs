@@ -104,7 +104,7 @@ namespace Collections
             return true;
         }
 
-        public IEnumerator GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             for (int i = 0; i < _count; i++)
             {
@@ -112,9 +112,9 @@ namespace Collections
             }
         }
 
-        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        public IEnumerator<T> GetEnumerator()
         {
-            return new Enumerator();
+            return new Enumerator(this);
         }
 
         public struct Enumerator : IEnumerator<T>
