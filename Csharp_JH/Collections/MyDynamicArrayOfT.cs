@@ -44,7 +44,8 @@ public class Tester
 namespace Collections
 {
     internal class MyDynamicArray<T> : IEnumerable<T>
-        where T : IComparable<T> // 인스턴스를 정렬하는 형식 고유의 비교 메서드를 만들기 위해 값 형식 또는 클래스에서 구현하는 일반화된 비교 메서드를 정의합니다.
+        where T : IComparable<T> // 인스턴스를 정렬하는 형식 고유의 비교 메서드를 만들기 위해
+                                 // 값 형식 또는 클래스에서 구현하는 일반화된 비교 메서드를 정의합니다.
     {
         private static int DEFAULT_SIZE = 1;
         public int Count => _count;
@@ -54,6 +55,7 @@ namespace Collections
 
         /// <summary>
         /// 삽입 알고리즘
+        /// 일반적인 경우 O(1), 공간이 모자란 경우에는 O(N)
         /// </summary>
         /// <param name="item"></param>
         public void Add(T item)
@@ -69,8 +71,30 @@ namespace Collections
             _items[_count++] = item;
         }
 
+        // Find 호출
+        public T Find(Predicate<T> match)
+        {
+            for (int i = 0; i < _count; i++)
+            {
+                if (match.Invoke(_items[i])) // program.cs 에서 list.Find 함수 호출하는거임
+                    return _items[i];
+            }
+            return default(T);
+        }
+        
+        // FindAll 호출 <O(N)>
+        public MyDynamicArray<T> FindAll(Predicate<T> match)
+        {
+            MyDynamicArray<T> result = new MyDynamicArray<T>();
+            for (int i = 0; i < _count; i++)
+            {
+                if (match.Invoke(_items[i])) 
+                    result.Add(_items[i]);
+            }
+            return result;
+        }
         /// <summary>
-        /// 탐색 알고리즘
+        /// 탐색 알고리즘<기본적으로 O(N)>
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
@@ -80,7 +104,7 @@ namespace Collections
             // Comparer.Default : 해당 타입의 default 비교연산자를 가지고 비교해서 결과를 반환하는 기능을 가진 객체
             for (int i = 0; i < _count; i++)
             {
-                if (Comparer<T>.Default.CompareTo(_items[i],item) == 0)
+                if (Comparer<T>.Default.Compare(_items[i],item) == 0)
                     return i;
             }
             return -1;

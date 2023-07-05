@@ -2,6 +2,11 @@
 using System.Collections.Generic; // google 검색해보셈
 using System.Xml.Schema;
 
+// using 의 사용처
+// 1. namespace 를 가져다쓸때
+// 2. namespace 간 멤버 호출의 모호할떄 (다른 namespace에 동일한 이름의 타입이 정의되어있을 떄)
+// 3. IDisposable 객체의 dispose 함수 호출을 보장할 때
+
 namespace Collections
 {
     internal class Program
@@ -93,6 +98,14 @@ namespace Collections
             {
                 Console.WriteLine(item);
             }
+            ArrayList arrList = new ArrayList();
+            arrList.Add(3);
+            arrList.Add("carl");
+            arrList.Contains(3); // 결과는 false.
+                                 // 왜? Add(3) 호출시 Boxing 으로 인해 만들어진 객체와
+                                 // Contains(3) 호출시 Boxing으로 인 해 만들어진 객체는 다르기떄문.
+
+
             List<int> list = new List<int>();
             list.Add(3);
             list.Remove(3);
