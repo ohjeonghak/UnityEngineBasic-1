@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -95,17 +96,75 @@ namespace Collections
 
         public Node<T> Find(Predicate<T> match)
         {
+            Node<T> current = _first;
 
+            while (current != null)
+            {
+                if (match (current.Value))
+                { 
+                    return current; 
+                }
+
+                current = _first.Next;
+            }
+
+            return null;
         }
 
         public Node<T> FindLast(Predicate<T> match)
         {
+            Node<T> current = _last;
 
+            while (current != null)
+            {
+                if (match(current.Value))
+                {
+                    return current;
+                }
+
+                current = _last.prev;
+            }
+
+            return null;
         }
 
         public bool Remove(T value)
         {
+            Node<T> current = _first;
 
+
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        public struct Enumerator : IEnumerator<T>
+        {
+            public T Current => throw new NotImplementedException();
+
+            object IEnumerator.Current => throw new NotImplementedException();
+
+            public void Dispose()
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool MoveNext()
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Reset()
+            {
+                throw new NotImplementedException();
+            }
         }
     }
     
