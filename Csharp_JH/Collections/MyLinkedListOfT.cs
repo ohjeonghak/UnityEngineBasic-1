@@ -132,12 +132,25 @@ namespace Collections
         {
             Node<T> current = _first;
 
+            while (current != null)
+            {
+                if (Remove(current.Value))
+                {
+                    return true;
+                }
 
+                current = _first.Next;
+                
+            }
+            return false;
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i <  current; i++)
+            {
+                yield return 
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
