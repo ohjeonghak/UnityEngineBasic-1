@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Collections
 {
+    
     internal class Node<T>
     {
         public T Value;
@@ -19,6 +20,13 @@ namespace Collections
 
     internal class MyLinkedListOfT<T> : IEnumerable<T>// 전부 get 접근자
     {
+        private Node<T> current;
+
+        public  MyLinkedListOfT(Node<T> current)
+        {
+           this .current = current;
+        }
+
         public Node<T> First => _first;
         public Node<T> Last => _last;
         private Node<T> _first, _last, _tmp;
@@ -128,28 +136,44 @@ namespace Collections
             return null;
         }
 
-        public bool Remove(T value)
+        public bool Remove(Node<T>node)
         {
-            Node<T> current = _first;
-
-            while (current != null)
+            if (node == null)
             {
-                if (Remove(current.Value))
+                return false;
+            }
+            else
+            {
+                if (node.prev != null)
+                    node.prev.Next = node.Next;
+                else
                 {
-                    return true;
+                    _first.Next = node.Next;
                 }
 
-                current = _first.Next;
-                
+                if (node.Next != null)
+                    node.Next.prev = node.prev;
+                else
+                {
+                    _last = node.prev;
+                }
+                return true;
             }
-            return false;
+        }
+        public bool Remove(T value)
+        {
+            return Remove(Find(value));
+        }
+        public bool  RemoveLast(T value)
+        {
+            return Remove(FindLast(value));
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            for (int i = 0; i <  current; i++)
+            for (int i = 0; i < value; i++)
             {
-                yield return 
+                yield return ;
             }
         }
 
