@@ -114,10 +114,17 @@ namespace Collections
                 //자식이 하나이던지 없던지 체크
                 if(node.Left == null)
                 {
+                  if (node.Right != null)
+                  {
+                    node.Right.Left = null;
+                    node.Right.Right = null;
+                  } 
                     return node.Right;
                 }
                 else if (node.Right == null)
                 {
+                    node.Left.Left = null;
+                    node.Left.Right = null;
                     return node.Left;
                 }
                 else
