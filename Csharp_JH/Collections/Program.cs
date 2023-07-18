@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic; // google 검색해보셈
 using System.Xml.Schema;
 
@@ -64,7 +64,8 @@ namespace Collections
             {
                 Console.WriteLine(e1.Current);
             }
-
+            #endregion
+            #region DynamicArray
             MyDynamicArray<int> intDA = new MyDynamicArray<int>();
             intDA.Add(3);
             intDA.Add(2);
@@ -136,6 +137,18 @@ namespace Collections
             {
                 Console.WriteLine("철수 점수 : " + grade);
             }
+            #endregion
+
+            #region BinaryTree
+
+            AVLTree<int> bt = new AVLTree<int>();
+
+            bt.Add(1);
+            bt.Add(4);
+            bt.Add(7);
+            bt.Add(2);
+            bt.Add(8);
+
             #endregion
         }
     }
