@@ -148,7 +148,7 @@ namespace Collections
             bt.Add(7);
             bt.Add(2);
             bt.Add(8);
-
+            bt.Remove(4);
             #endregion
         }
     }
