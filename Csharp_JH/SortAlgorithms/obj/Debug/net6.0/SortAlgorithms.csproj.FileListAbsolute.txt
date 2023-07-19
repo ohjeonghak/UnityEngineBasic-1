@@ -1,0 +1,5 @@
+C:\Users\User\Documents\GitHub\UnityEngineBasic-1\Csharp_JH\SortAlgorithms\obj\Debug\net6.0\SortAlgorithms.csproj.AssemblyReference.cache
+C:\Users\User\Documents\GitHub\UnityEngineBasic-1\Csharp_JH\SortAlgorithms\obj\Debug\net6.0\SortAlgorithms.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Documents\GitHub\UnityEngineBasic-1\Csharp_JH\SortAlgorithms\obj\Debug\net6.0\SortAlgorithms.AssemblyInfoInputs.cache
+C:\Users\User\Documents\GitHub\UnityEngineBasic-1\Csharp_JH\SortAlgorithms\obj\Debug\net6.0\SortAlgorithms.AssemblyInfo.cs
+C:\Users\User\Documents\GitHub\UnityEngineBasic-1\Csharp_JH\SortAlgorithms\obj\Debug\net6.0\SortAlgorithms.csproj.CoreCompileInputs.cache

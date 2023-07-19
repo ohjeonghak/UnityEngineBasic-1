@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Collections
 {
-    internal class AVLTree
+    internal class AVLTree<T>
         where T : IComparable<T>
     {
-
         private class Node
         {
             public T Value;
@@ -19,7 +18,6 @@ namespace Collections
         }
 
         private Node _root;
-
 
 
         public bool Contains(T value)
@@ -34,10 +32,8 @@ namespace Collections
                 else
                     return true;
             }
-            return false;   
-        } 
-
-
+            return false;
+        }
 
         public void Add(T value)
         {
@@ -61,23 +57,22 @@ namespace Collections
                 node.Right = Add(node.Right, value);
             }
 
-            // ?? -> Null 병합연산자
+            // ?? Null 병합연산자 
             // null 이 아닐경우 왼쪽 값 반환, null 이면 오른쪽 값 반환
-            node.Height = 1 + Math.Max(node?.Left?.Height ?? 0, node.Right?.Height);
+            node.Height = 1 + Math.Max(node?.Left?.Height ?? 0, node?.Right?.Height ?? 0);
             int balance = Balance(node);
+
             // 왼쪽으로 치우쳐져있으면
             if (balance > 1)
             {
-                if (value.CompareTo(node.Left.Left) > 0)
+                if (value.CompareTo(node.Left.Value) > 0)
                 {
-                    node.Left =  RotateLeft(node.Left);
+                    node.Left = RotateLeft(node.Left);
                 }
 
-                return RotateLeft(node);
+                return RotateRight(node);
             }
-
-           
-            //오른쪽으로 치우쳐져있으면
+            // 오른쪽으로 치우쳐져있으면
             else if (balance < -1)
             {
                 if (value.CompareTo(node.Right.Value) < 0)
@@ -85,15 +80,16 @@ namespace Collections
                     node.Right = RotateRight(node.Right);
                 }
 
-                return RotateRight(node);
+                return RotateLeft(node);
             }
 
+            return node;
         }
+
         public void Remove(T value)
         {
             _root = Remove(_root, value);
         }
-
 
         private Node Remove(Node node, T value)
         {
@@ -111,14 +107,15 @@ namespace Collections
             }
             else
             {
-                //자식이 하나이던지 없던지 체크
-                if(node.Left == null)
+                // 자식이 하나이던지 없던지 체크
+                if (node.Left == null)
                 {
-                  if (node.Right != null)
-                  {
-                    node.Right.Left = null;
-                    node.Right.Right = null;
-                  } 
+                    if (node.Right != null)
+                    {
+                        node.Right.Left = null;
+                        node.Right.Right = null;
+                    }
+
                     return node.Right;
                 }
                 else if (node.Right == null)
@@ -141,23 +138,21 @@ namespace Collections
                 }
             }
 
-            node.Height = 1 + Math.Max(node?.Left.Height ?? 0, node?.Right.Height ?? 0);
+            node.Height = 1 + Math.Max(node?.Left?.Height ?? 0, node?.Right?.Height ?? 0);
 
             int balance = Balance(node);
 
             // 왼쪽으로 치우쳐져있으면
             if (balance > 1)
             {
-                if (value.CompareTo(node.Left.Left) > 0)
+                if (value.CompareTo(node.Left.Value) > 0)
                 {
                     node.Left = RotateLeft(node.Left);
                 }
 
-                return RotateLeft(node);
+                return RotateRight(node);
             }
-
-
-            //오른쪽으로 치우쳐져있으면
+            // 오른쪽으로 치우쳐져있으면
             else if (balance < -1)
             {
                 if (value.CompareTo(node.Right.Value) < 0)
@@ -165,16 +160,18 @@ namespace Collections
                     node.Right = RotateRight(node.Right);
                 }
 
-                return RotateRight(node);
+                return RotateLeft(node);
             }
 
+            return node;
         }
 
+
         /// <summary>
-        /// 기준노드 중심으로 어느쪽으로 자식노드들이  치우쳐져있는지 판단
+        /// 기준노드 중심으로 어느쪽으로 자식노드들이 치우쳐져있는지 판단
         /// </summary>
-        /// <param name="node"></param>
-        /// <returns> 왼쪽 : > 1, 오른쪽 : < -1   </returns>
+        /// <param name="node"> 기준노드 </param>
+        /// <returns> 왼쪽 : > 1 , 오른쪽 : < - 1  </returns>
         private int Balance(Node node)
         {
             return node != null ? (node?.Left?.Height ?? 0 - node?.Right?.Height ?? 0) : 0;
@@ -182,17 +179,23 @@ namespace Collections
 
         private Node RotateLeft(Node node)
         {
+            if (node == null || node.Right == null)
+                return node;            
+
             Node newRoot = node.Right;
             node.Right = newRoot.Left;
             newRoot.Left = node;
 
             node.Height = 1 + Math.Max(node?.Left?.Height ?? 0, node?.Right?.Height ?? 0);
-            newRoot.Height = 1 + Math.Max(newRoot?.Left?.Height ?? 0, newRoot?.Right?.Height ?? 0);
+            newRoot.Height = 1 + Math.Max(newRoot?.Left.Height ?? 0, newRoot?.Right?.Height ?? 0);
             return newRoot;
         }
 
         private Node RotateRight(Node node)
         {
+            if (node == null || node.Left == null)
+                return node;
+
             Node newRoot = node.Left;
             node.Left = newRoot.Right;
             newRoot.Right = node;
@@ -201,5 +204,5 @@ namespace Collections
             newRoot.Height = 1 + Math.Max(newRoot?.Left?.Height ?? 0, newRoot?.Right?.Height ?? 0);
             return newRoot;
         }
-    }           
+    }
 }
