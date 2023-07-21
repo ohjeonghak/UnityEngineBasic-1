@@ -18,10 +18,14 @@ namespace SortAlgorithms
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
+
+            // (O)N^2 형태의 SortAlgorithm은 잘 안씀
             //ArraySort.BubbleSort(arr);
             //ArraySort.SelecionSort(arr);
-            ArraySort.InsertionSort(arr);
-            
+            //ArraySort.InsertionSort(arr);
+            //ArraySort.MergeSort(arr);
+            ArraySort.RecursiveMergeSort(arr);
+
             stopwatch.Stop();
             Console.WriteLine($"소요시간 : {stopwatch.ElapsedMilliseconds}");
 
