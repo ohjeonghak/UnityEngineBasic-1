@@ -16,25 +16,31 @@ namespace SortAlgorithms
                 .ToArray();
 
 
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
+            //Stopwatch stopwatch = new Stopwatch();
+            //stopwatch.Start();
 
-            // (O)N^2 형태의 SortAlgorithm은 잘 안씀
+            // O(N^2) 형태의 SortAlgorithm은 잘 안씀
             //ArraySort.BubbleSort(arr);
             //ArraySort.SelecionSort(arr);
             //ArraySort.InsertionSort(arr);
+
+            //로그N 형태
             //ArraySort.MergeSort(arr);
-            ArraySort.RecursiveMergeSort(arr);
+            //ArraySort.RecursiveMergeSort(arr);
 
-            stopwatch.Stop();
-            Console.WriteLine($"소요시간 : {stopwatch.ElapsedMilliseconds}");
+            // O(N^2) 최악의 형태지만 잘쓰는 형태
+            ArraySort.RecursiveQuickSort(arr);
 
-            //Console.Write("Result : ");
-            //
-            //for (int i = 0; i < arr.Length; i++)
-            //{
-            //    Console.Write($"{arr[i]},");
-            //}
+
+            //stopwatch.Stop();
+            //Console.WriteLine($"소요시간 : {stopwatch.ElapsedMilliseconds}");
+
+            Console.Write("Result : ");
+            
+            for (int i = 0; i < arr.Length; i++)
+            {
+                Console.Write($"{arr[i]},");
+            }
         }
     }
 }

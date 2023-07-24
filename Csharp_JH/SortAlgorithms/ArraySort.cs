@@ -75,7 +75,7 @@ namespace SortAlgorithms
         }
 
 
-
+        //for 문에서 분할 됨
         public static void MergeSort(int[] arr)
         {
             int length = arr.Length;
@@ -92,7 +92,7 @@ namespace SortAlgorithms
             }
         }
 
-
+        //병합
         private static void Merge(int[] arr, int start, int mid, int end)
         {
             int part1 = start;
@@ -151,6 +151,43 @@ namespace SortAlgorithms
         }
 
         
+        public static void RecursiveQuickSort(int[] arr)
+        {
+            RecursiveQuickSort(arr , 0, arr.Length - 1);
+        }
+
+
+        public static void RecursiveQuickSort(int[] arr, int start,  int end)
+        {
+            if (start < end)
+            {
+                int partition = Partition(arr, start, end);
+                RecursiveQuickSort(arr, start,partition - 1);
+                RecursiveQuickSort(arr, partition + 1, end);
+            }
+        }
+
+        private static int Partition(int[] arr, int start, int end)
+        {
+            int pivot = arr[end + (start - end) / 2 ];
+
+            while (true)
+            {
+                while (start < end && arr[start] < pivot) start++;
+                while (arr[end] >= pivot) end--;
+
+                if (start < end)
+                {
+                    Swap(ref arr[start], ref arr[end]);
+                }
+                else
+                {
+                    return end;
+                }
+            }
+        }
+
+
 
 
 
