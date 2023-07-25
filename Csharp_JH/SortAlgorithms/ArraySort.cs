@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -150,35 +151,67 @@ namespace SortAlgorithms
             }
         }
 
+        public static void QuickSort(int[] arr)
+        {
+            Stack<int> partitionstack = new Stack<int>();
+            partitionstack.Push(0);
+            partitionstack.Push(arr.Length - 1);
+
+            while (partitionstack.Count > 0)
+            {
+                int end = partitionstack.Pop();
+                int start = partitionstack.Pop();
+                int partition = Partition(arr, start, end);
+                
+                //left side
+                if (partition - 1 > start)
+                {
+                    partitionstack.Push(start);
+                    partitionstack.Push(partition - 1);
+                }
+
+                //right side
+                if (partition + 1 < end)
+                {
+                    partitionstack.Push(partition + 1);
+                    partitionstack.Push(end);
+                }
+            }
+        }
+        
+
         
         public static void RecursiveQuickSort(int[] arr)
         {
-            RecursiveQuickSort(arr , 0, arr.Length - 1);
+            RecursiveQuickSort(arr, 0, arr.Length - 1);
         }
 
 
-        public static void RecursiveQuickSort(int[] arr, int start,  int end)
+        public static void RecursiveQuickSort(int[] arr, int start, int end)
         {
             if (start < end)
             {
                 int partition = Partition(arr, start, end);
-                RecursiveQuickSort(arr, start,partition - 1);
+                RecursiveQuickSort(arr, start, partition - 1);
                 RecursiveQuickSort(arr, partition + 1, end);
             }
         }
 
         private static int Partition(int[] arr, int start, int end)
         {
-            int pivot = arr[end + (start - end) / 2 ];
+            int pivot = arr[(start + end) / 2];
 
             while (true)
             {
-                while (start < end && arr[start] < pivot) start++;
-                while (arr[end] >= pivot) end--;
+                while (arr[start] < pivot) start++;
+                while (arr[end] > pivot) end--;
 
                 if (start < end)
                 {
                     Swap(ref arr[start], ref arr[end]);
+
+                    if (arr[start] == pivot && arr[end] == pivot)
+                        end--;
                 }
                 else
                 {
