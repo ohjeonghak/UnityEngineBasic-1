@@ -35,7 +35,10 @@ namespace SortAlgorithms
             // ->공간복잡도에대해 문제가 없으면 해당 경우에서는 MergeSort를 사용하는것을 고려해야한다.
 
 
-            ArraySort.QuickSort(arr);
+            //ArraySort.QuickSort(arr);
+            ArraySort.HeapSort(arr);
+
+
             stopwatch.Stop();
             Console.WriteLine($"소요시간 : {stopwatch.ElapsedMilliseconds}");
 
