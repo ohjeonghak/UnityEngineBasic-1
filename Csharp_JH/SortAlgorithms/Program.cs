@@ -39,7 +39,7 @@ namespace SortAlgorithms
             ArraySort.HeapSort(arr);
 
 
-            stopwatch.Stop();
+
             Console.WriteLine($"소요시간 : {stopwatch.ElapsedMilliseconds}");
 
             Console.Write("Result : ");
