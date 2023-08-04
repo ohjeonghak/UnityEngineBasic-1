@@ -9,18 +9,29 @@ public class Horse : MonoBehaviour
 
 
     //[SerializeField] : 해당 필드를 유니티에디터의 인스펙터창에 노출시키기위한 Attribute.
-    public bool doMove;
+    public bool doMove
+    {
+        get => _doMove;
+        set
+        {
+            _animator.SetBool("doMove", value);
+            _doMove = value;
+        }
+
+    }
+    private bool _doMove;
     [SerializeField] private float speed = 0.5f;
     [Range(0.0f, 1.0f)] [SerializeField] private float _stability;
     private float _speedModified;
     private float _speedmodifyingDistance = 1f;
     private float _speedModifyedDistanceMark;
     private Vector3 _startPos;
-
+    private Animator _animator;
 
 
     private void Awake()
     {
+        _animator = GetComponent<Animator>();
         _startPos = transform.position;
         _speedModified = speed * Random.Range(_stability, 1.0f);
     }
