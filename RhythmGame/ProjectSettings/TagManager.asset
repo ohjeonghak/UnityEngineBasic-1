@@ -47,3 +47,9 @@ TagManager:
   - name: MiddleGround
     uniqueID: 2507976213
     locked: 0
+  - name: HitEffect
+    uniqueID: 3991688619
+    locked: 0
+  - name: PopUp
+    uniqueID: 492896075
+    locked: 0
