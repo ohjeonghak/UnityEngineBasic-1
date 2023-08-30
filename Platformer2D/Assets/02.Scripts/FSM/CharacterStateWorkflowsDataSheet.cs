@@ -5,7 +5,7 @@ using Unity.Collections.LowLevel.Unsafe;
 using UnityEditor.Rendering;
 using UnityEngine;
 
-public static class CharaterStateWorkflows
+public static class CharacterStateWorkflowsDataSheet
 {
     public abstract class WorkflowBase : IWorkflow<State>
     {
@@ -28,7 +28,7 @@ public static class CharaterStateWorkflows
         }
 
         public abstract State MoveNext();
-                 
+
 
         public void Reset()
         {
@@ -42,14 +42,27 @@ public static class CharaterStateWorkflows
         {
         }
         public override State MoveNext()
+        
+         
         {
             State next = ID;
 
             switch (current)
             {
+                case 0:
+                    {
+                        machine.isDirectionChangeable = true;
+                        machine.isMovable = true;
+                        current++;
+                    }
+                    break;
                 default:
                     {
+                        if (Mathf.Abs(machine.horizontal) > 0)
+                            next = State.Move;
                         // todo -> X 축 입력 절댓값이 0보다 크면 next = State.Move
+
+
                         // todo -> Ground 가 감지되지 않으면 next = State.Fall
                     }
                     break;
@@ -74,15 +87,26 @@ public static class CharaterStateWorkflows
 
             switch (current)
             {
+                case 0:
+                    {
+                        machine.isDirectionChangeable = true;
+                        machine.isMovable = true;
+                        current++;
+                    }
+                    break;
                 default:
                     {
+                        if ((machine.horizontal) == 0.0f)
+                           
+                            next = State.Idle;
+                           
                         // todo -> X 축 입력 절댓값이 0보다 크면 next = State.Move
+
+
                         // todo -> Ground 가 감지되지 않으면 next = State.Fall
                     }
                     break;
             }
-
-            return next;
         }
     }
 
