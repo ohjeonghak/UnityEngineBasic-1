@@ -60,7 +60,24 @@ public class CharacterMachine : MonoBehaviour
     public State current;
     private Dictionary<State, IWorkflow<State>> _states;
     
-    
+    public Animator animator;
+
+
+    public bool isGrounded
+    {
+        get
+        {
+            return Physics2D.OverlapBox(_rigidbody.position + _groundDetectCenter,
+                                        _groundDetectSize,
+                                        0.0f,
+                                        _groundMask);
+        }
+    }
+    [Header("Ground Detection")]
+    [SerializeField] private Vector2 _groundDetectCenter;
+    [SerializeField] private Vector2 _groundDetectSize;
+    [SerializeField] private LayerMask _groundMask;
+
 
     public void Initialize(IEnumerable<KeyValuePair<State, IWorkflow<State>>> copy)
     {
@@ -80,6 +97,8 @@ public class CharacterMachine : MonoBehaviour
 
     private void Awake()
     {
+
+        animator = GetComponentInChildren<Animator>();
         _rigidbody = GetComponent<Rigidbody2D>();
         direction = DIRECTION_RIGHT;
     }
@@ -104,6 +123,14 @@ public class CharacterMachine : MonoBehaviour
     private void FixedUpdate()
     {
         _rigidbody.position += move * Time.fixedDeltaTime;
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(transform.position + (Vector3)_groundDetectCenter,
+                            _groundDetectSize);
     }
 }
 
