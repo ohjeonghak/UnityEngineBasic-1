@@ -59,6 +59,7 @@ public class CharacterMachine : MonoBehaviour
     
     public State current;
     private Dictionary<State, IWorkflow<State>> _states;
+    public bool _isDirty;
     
     public Animator animator;
 
@@ -85,13 +86,20 @@ public class CharacterMachine : MonoBehaviour
         current = copy.First().Key;
     }
 
-    public bool ChangeState(State newstate)
+    public bool ChangeState(State newState)
     {
-        if (newstate == current)
+        if (_isDirty)
+         return false;
+        if (newState == current)
             return false;
 
-        current = newstate;
-        _states[newstate].Reset();
+        if (_states[newState].CanExecute == false)
+            return false;
+
+        current = newState;
+        _states[newState].Reset();
+        ChangeState(_states[newState].MoveNext());
+        _isDirty = true;
         return true;
     }
 
@@ -104,7 +112,7 @@ public class CharacterMachine : MonoBehaviour
     }
 
 
-    private void Update()
+    protected virtual void Update()
     {
        ChangeState(_states[current].MoveNext());
 
@@ -125,7 +133,10 @@ public class CharacterMachine : MonoBehaviour
         _rigidbody.position += move * Time.fixedDeltaTime;
     }
 
-
+    private void LateUpdate()
+    {
+        _isDirty = false;
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
