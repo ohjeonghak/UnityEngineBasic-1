@@ -17,9 +17,20 @@ public class PlayerMachine : CharacterMachine
     protected override void Update()
     {
         base.Update();
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            ChangeState(State.Jump);
+           if (ChangeState(State.Jump) == false)
+                ChangeState(State.SecondJump);
+        }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            ChangeState(State.Crouch);
+        }
+        else if (Input.GetKeyUp(KeyCode.DownArrow))
+        {
+            if (current == State.Crouch)
+            ChangeState(State.Idle);
         }
     }
 }

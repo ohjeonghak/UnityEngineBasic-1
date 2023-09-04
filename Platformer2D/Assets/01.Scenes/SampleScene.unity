@@ -547,8 +547,8 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!70 &229687077
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -618,7 +618,10 @@ MonoBehaviour:
   move: {x: 0, y: 0}
   isMovable: 0
   current: 0
+  _isDirty: 0
   animator: {fileID: 0}
+  hasJumped: 0
+  hasSecondJumped: 0
   _groundDetectCenter: {x: 0, y: -0.01}
   _groundDetectSize: {x: 0.08, y: 0.02}
   _groundMask:
@@ -13739,7 +13742,7 @@ GameObject:
   - component: {fileID: 1971377373}
   - component: {fileID: 1971377374}
   m_Layer: 11
-  m_Name: GameObject
+  m_Name: Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

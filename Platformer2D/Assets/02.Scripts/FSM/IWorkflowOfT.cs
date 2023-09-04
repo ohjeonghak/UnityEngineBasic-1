@@ -11,6 +11,10 @@ public interface IWorkflow<T>
 
     int Current { get; }
 
+    void OnEnter();
+
+    void OnExit();
+
     T MoveNext();
 
     void Reset();

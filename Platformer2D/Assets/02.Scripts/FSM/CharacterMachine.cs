@@ -10,8 +10,10 @@ public enum State
     Idle,
     Move,
     Jump,
+    SecondJump,
     Fall,
     Land,
+    Crouch,
 }
 
 
@@ -60,9 +62,11 @@ public class CharacterMachine : MonoBehaviour
     public State current;
     private Dictionary<State, IWorkflow<State>> _states;
     public bool _isDirty;
-    
     public Animator animator;
 
+    // Flags
+    public bool hasJumped;
+    public bool hasSecondJumped;
 
     public bool isGrounded
     {
@@ -96,9 +100,9 @@ public class CharacterMachine : MonoBehaviour
         if (_states[newState].CanExecute == false)
             return false;
 
+        _states[current].OnExit();
         current = newState;
-        _states[newState].Reset();
-        ChangeState(_states[newState].MoveNext());
+        _states[newState].OnEnter();
         _isDirty = true;
         return true;
     }
