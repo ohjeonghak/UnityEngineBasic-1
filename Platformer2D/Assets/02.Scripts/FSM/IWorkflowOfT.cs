@@ -11,11 +11,13 @@ public interface IWorkflow<T>
 
     int Current { get; }
 
-    void OnEnter();
+    void OnEnter(object[] parameters);
 
     void OnExit();
 
-    T MoveNext();
+    T OnUpdate();
+
+    void OnFixdeUpdate();
 
     void Reset();
 }

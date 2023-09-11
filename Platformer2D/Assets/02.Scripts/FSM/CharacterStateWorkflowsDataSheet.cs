@@ -33,7 +33,13 @@ public static class CharacterStateWorkflowsDataSheet
             this.colliders = machine.GetComponentsInChildren<CapsuleCollider2D>();
         }
 
-        public abstract State MoveNext();
+        public abstract State OnUpdate();
+
+
+        public virtual void OnFixdeUpdate()
+        {
+        }
+
 
 
         public void Reset()
@@ -41,10 +47,8 @@ public static class CharacterStateWorkflowsDataSheet
             current = 0;
         }
 
-        public virtual void OnEnter() { Reset(); }
+        public virtual void OnEnter(object[] parameters) { Reset(); }
         public virtual void OnExit() {  }
-
-       
 
     }
     public class Idle : WorkflowBase
@@ -54,9 +58,9 @@ public static class CharacterStateWorkflowsDataSheet
         {
         }
 
-        public override void OnEnter()
+        public override void OnEnter(object[] parameters)
         {
-            base.OnEnter();
+            base.OnEnter(parameters);
             machine.hasJumped = false;
             machine.hasSecondJumped = false;
             machine.isDirectionChangeable = true;
@@ -65,7 +69,7 @@ public static class CharacterStateWorkflowsDataSheet
             current++;
 
         }
-        public override State MoveNext()
+        public override State OnUpdate()
 
 
         {
@@ -95,9 +99,9 @@ public static class CharacterStateWorkflowsDataSheet
     public class Move : WorkflowBase
     {
 
-        public override void OnEnter()
+        public override void OnEnter(object[] parameters)
         {
-            base.OnEnter();
+            base.OnEnter(parameters);
             machine.isDirectionChangeable = true;
             machine.isMovable = true;
             animator.Play("Move");
@@ -107,7 +111,7 @@ public static class CharacterStateWorkflowsDataSheet
         public Move(CharacterMachine machine) : base(machine)
         {
         }
-        public override State MoveNext()
+        public override State OnUpdate()
         {
             State next = ID;
 
@@ -152,9 +156,9 @@ public static class CharacterStateWorkflowsDataSheet
             _force = force;
         }
 
-        public override void OnEnter()
+        public override void OnEnter(object[] parameters)
         {
-            base.OnEnter();
+            base.OnEnter(parameters);
             machine.hasJumped = true;
             machine.isDirectionChangeable = true;
             machine.isMovable = false;
@@ -163,7 +167,7 @@ public static class CharacterStateWorkflowsDataSheet
             animator.Play("Jump");
             current++;
         }
-        public override State MoveNext()
+        public override State OnUpdate()
         {
             State next = ID;
 
@@ -203,9 +207,9 @@ public static class CharacterStateWorkflowsDataSheet
             _groundIgnoreTime = groundIgnoreTime;
         }
 
-        public override void OnEnter()
+        public override void OnEnter(object[] parameters)
         {
-            base.OnEnter();
+            base.OnEnter(parameters);
             machine.isDirectionChangeable = true;
             machine.isMovable = false;
             _ground = machine.ground;
@@ -223,7 +227,7 @@ public static class CharacterStateWorkflowsDataSheet
             }
         }
 
-        public override State MoveNext()
+        public override State OnUpdate()
         {
             State next = ID;
 
@@ -291,7 +295,7 @@ public static class CharacterStateWorkflowsDataSheet
         {
             _force = force;
         }
-        public override State MoveNext()
+        public override State OnUpdate()
         {
             State next = ID;
 
@@ -336,16 +340,16 @@ public static class CharacterStateWorkflowsDataSheet
         }
 
 
-        public override void OnEnter()
+        public override void OnEnter(object[] parameters)
         {
-            base.OnEnter();
+            base.OnEnter(parameters);
             machine.isDirectionChangeable = true;
             machine.isMovable = false;
             _startPosY = rigidbody.position.y;
             animator.Play("Fall");
             current++;
         }
-        public override State MoveNext()
+        public override State OnUpdate()
         {
             State next = ID;
 
@@ -374,9 +378,9 @@ public static class CharacterStateWorkflowsDataSheet
         {
         }
 
-        public override void OnEnter()
+        public override void OnEnter(object[] parameters)
         {
-            base.OnEnter();
+            base.OnEnter(parameters);
             machine.isDirectionChangeable = true;
             machine.isMovable = false;
             machine.move = Vector2.zero;
@@ -384,7 +388,7 @@ public static class CharacterStateWorkflowsDataSheet
             animator.Play("Land");
             current++;
         }
-        public override State MoveNext()
+        public override State OnUpdate()
         {
             State next = ID;
 
@@ -428,9 +432,9 @@ public static class CharacterStateWorkflowsDataSheet
             _sizeOrigin = colliders[0].size;
         }
 
-        public override void OnEnter()
+        public override void OnEnter(object[] parameters)
         {
-            base.OnEnter();
+            base.OnEnter(parameters);
             machine.isDirectionChangeable = true;
             machine.isMovable = false;
             machine.move = Vector2.zero;
@@ -454,7 +458,7 @@ public static class CharacterStateWorkflowsDataSheet
             }
             
         }
-        public override State MoveNext()
+        public override State OnUpdate()
         {
             State next = ID;
 
@@ -484,6 +488,122 @@ public static class CharacterStateWorkflowsDataSheet
         }
     }
 
+    public class LadderClimbing : WorkflowBase
+    {
+
+        public override State ID => State.LadderClimbing;
+
+        public override bool CanExecute => base.CanExecute &&
+                                           (machine.current == State.Idle ||
+                                            machine.current == State.Move ||
+                                            machine.current == State.Jump ||
+                                            machine.current == State.Fall);
+        private Ladder _ladder;
+        private float _climbingSpeed;
+        private float _vertical;
+        public LadderClimbing(CharacterMachine machine, float climbingSpeed) : base(machine)
+        {
+            _climbingSpeed = climbingSpeed;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parameters">0 : (Ladder), ¡è : À§/¾Æ·¡(int) </param>
+
+        public override void OnEnter(object[] parameters)
+        {
+            base.OnEnter(parameters);
+            machine.isDirectionChangeable = false;
+            machine.isMovable = false;
+            machine.move = Vector2.zero;
+            rigidbody.velocity = Vector2.zero;
+            rigidbody.bodyType = RigidbodyType2D.Kinematic;
+            animator.Play("LadderClimbing");
+            animator.speed = 0.0f;
+            _ladder = (Ladder)parameters[0];
+            int toward = (int)parameters[1];
+            if (toward > 0)
+            {
+                transform.position = transform.position.y > _ladder.upEndPos.y ?
+                                     new Vector3(_ladder.upStartPos.x, transform.position.y) : _ladder.upStartPos;
+            }
+            else if (toward < 0)
+                transform.position = _ladder.downStartPos;
+            else
+                throw new System.Exception($"[{machine.gameObject.name} - LadderClimbing] : toward wrong");
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+            rigidbody.bodyType = RigidbodyType2D.Dynamic;
+            animator.speed = 1.0f;
+        }
+        public override State OnUpdate()
+        {
+            State next = ID;
+
+            switch (current)
+            {
+
+                default:
+                    {
+                        if (machine.isGrounded)
+                        {
+                            next = State.Idle;
+                        }
+                        else if (transform.position.y > _ladder.upEndPos.y)
+                        {
+                            transform.position = _ladder.top;
+                            next = State.Idle;
+                        }
+                        else if (transform.position.y < _ladder.downEndPos.y)
+                        {
+                            next = State.Idle;
+                        }
+                        else
+                        {
+                            transform.position += Vector3.up * machine.vertical * _climbingSpeed * Time.deltaTime;
+                        }
+                    }
+                    break;
+            }
+            return next;
+        }
+
+        public override void OnFixdeUpdate()
+        {
+            base.OnFixdeUpdate();
+            switch (current)
+            {
+
+                default:
+                    {
+                        if (machine.isGrounded)
+                        {
+
+                        }
+                        else if (transform.position.y > _ladder.upEndPos.y)
+                        {
+
+
+                        }
+                        else if (transform.position.y < _ladder.downEndPos.y)
+                        {
+
+                        }
+                        else
+                        {
+                            transform.position += Vector3.up * machine.vertical * _climbingSpeed * Time.deltaTime;
+                        }
+                    }
+                    break;
+            }
+            return;
+        }
+    }
+
     public static IEnumerable<KeyValuePair<State, IWorkflow<State>>> GetWorkflowsForPlayer(CharacterMachine machine)
     {
 
@@ -497,6 +617,9 @@ public static class CharacterStateWorkflowsDataSheet
         { State.Fall, new Fall(machine, 1.0f)},
         { State.Land, new Land(machine) },
         { State.Crouch, new Crouch(machine, new Vector2 (0.0f, 0.06f), new Vector2(0.12f, 0.12f)) },
+        { State.LadderClimbing, new LadderClimbing(machine, 1.0f) },
+
         };
     }
+
 }

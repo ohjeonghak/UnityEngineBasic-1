@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Ladder : MonoBehaviour
 {
     public Vector2 top => (Vector2)transform.position +
                           _bound.offset +
-                          Vector2.up * _bound.size.y /2.0f;
+                          Vector2.up * _bound.size.y / 2.0f;
 
     public Vector2 bottom => (Vector2)transform.position +
                               _bound.offset +
@@ -44,7 +45,7 @@ public class Ladder : MonoBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawLine(Vector3.left * 0.1f + (Vector3)upStartPos,
                         Vector3.right * 0.1f + (Vector3)upStartPos);
-        
+
         Gizmos.DrawLine(Vector3.left * 0.1f + (Vector3)upEndPos,
                         Vector3.right * 0.1f + (Vector3)upEndPos);
 
