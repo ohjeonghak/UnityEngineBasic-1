@@ -171,7 +171,7 @@ BoxCollider2D:
     serializedVersion: 2
     m_Bits: 4294967295
   m_IsTrigger: 1
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: -0.03, y: -0.15}
   m_SpriteTilingProperty:
@@ -689,7 +689,7 @@ Transform:
   m_GameObject: {fileID: 229687074}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.4, y: -4.012, z: 0}
+  m_LocalPosition: {x: -0.25, y: -3.7500002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -714,6 +714,7 @@ MonoBehaviour:
   move: {x: 0, y: 0}
   isMovable: 0
   current: 0
+  previous: 0
   _isDirty: 0
   animator: {fileID: 0}
   hasJumped: 0
@@ -725,10 +726,17 @@ MonoBehaviour:
     m_Bits: 64
   _groundBelowDetectCenter: {x: 0, y: -0.22}
   _groundBelowDetectDistance: 1
-  _ladderUpDetectOffset: 0.16
+  _ladderUpDetectOffset: 0.2
   _ladderDownDetectOffset: -0.08
   _ladderDetectRadius: 0.02
   _ladderMask:
+    serializedVersion: 2
+    m_Bits: 0
+  isLedgeDetected: 0
+  ledgePoint: {x: 0, y: 0}
+  ledgeDetecOffset: {x: 0.1, y: 0.38}
+  _ledgeDetectDistance: 0.04
+  _ledgeMask:
     serializedVersion: 2
     m_Bits: 256
 --- !u!1 &489160037
@@ -947,7 +955,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.663664, y: -2.0098, z: -10}
+  m_LocalPosition: {x: -0.513664, y: -1.7478001, z: -10}
   m_LocalScale: {x: 1, y: 0.45, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1454,6 +1462,7 @@ GameObject:
   - component: {fileID: 1339391714}
   - component: {fileID: 1339391716}
   - component: {fileID: 1339391715}
+  - component: {fileID: 1339391717}
   m_Layer: 6
   m_Name: Tilemap-Ground
   m_TagString: Untagged
@@ -4790,7 +4799,7 @@ EdgeCollider2D:
   m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -1.43}
-  m_EdgeRadius: 0
+  m_EdgeRadius: 0.06
   m_Points:
   - {x: -8.96, y: -2.56}
   - {x: -6.068673, y: -2.5624504}
@@ -4806,6 +4815,47 @@ EdgeCollider2D:
   - {x: -0.6143494, y: -1.9232138}
   - {x: -0.6207812, y: -2.56}
   - {x: 8.96, y: -2.56}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
+--- !u!68 &1339391717
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339391709}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.06, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.08913112, y: -3.3416076}
+  - {x: 1.2136325, y: -3.3442266}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
@@ -5057,7 +5107,7 @@ Transform:
   m_GameObject: {fileID: 1537476786}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.077, y: 0.217, z: 0}
+  m_LocalPosition: {x: 0.08, y: 0.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5233,7 +5283,7 @@ Transform:
   m_GameObject: {fileID: 1679933043}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.663664, y: -2.0098, z: -10}
+  m_LocalPosition: {x: -0.513664, y: -1.7478001, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14128,7 +14178,7 @@ Transform:
   m_GameObject: {fileID: 1971377372}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.0000009536743, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

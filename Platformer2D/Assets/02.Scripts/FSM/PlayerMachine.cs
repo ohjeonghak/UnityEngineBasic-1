@@ -33,6 +33,7 @@ public class PlayerMachine : CharacterMachine
         {
             if (canLadderUp)
                 ChangeState(State.LadderClimbing, new object[] { upLadder, DiRECTION_UP });
+            ChangeState(State.Ledge);
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
