@@ -18,6 +18,7 @@ public enum State
     Crouch,
     LadderClimbing,
     Ledge,
+    LedgeClimb,
 }
 
 
@@ -230,9 +231,20 @@ public class CharacterMachine : MonoBehaviour
                               Vector2.down,
                               _ledgeDetectDistance,
                               _ledgeMask);
+        if (hit.collider &&
+            Physics2D.Raycast(_rigidbody.position + new Vector2(ledgeDetecOffset.x * direction, ledgeDetecOffset.y),
+                              Vector2.up,
+                              _ledgeDetectDistance,
+                              _ledgeMask) == false)
 
-        isLedgeDetected = hit.collider;
-        ledgePoint = hit.point;
+        {
+            isLedgeDetected = hit.collider;
+            ledgePoint = hit.point;
+        }
+        else
+        {
+            isLedgeDetected = false;
+        }
     }
 
     private void OnDrawGizmos()
