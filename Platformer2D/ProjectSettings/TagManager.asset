@@ -41,6 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Ground
+    uniqueID: 859585375
+    locked: 0
   - name: Ladder
     uniqueID: 267090961
     locked: 0

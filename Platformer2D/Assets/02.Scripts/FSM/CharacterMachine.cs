@@ -19,6 +19,7 @@ public enum State
     LadderClimbing,
     Ledge,
     LedgeClimb,
+    WallSlide,
 }
 
 
@@ -51,7 +52,7 @@ public class CharacterMachine : MonoBehaviour
         }
     
     }
-    private int _direction;
+    private int _direction = DIRECTION_RIGHT;
     [HideInInspector] public bool isDirectionChangeable;
    
     public const int DIRECTION_RIGHT = 1;
@@ -105,9 +106,17 @@ public class CharacterMachine : MonoBehaviour
     //Ledge detection
     public bool isLedgeDetected;
     public Vector2 ledgePoint;
-    public Vector2 ledgeDetecOffset;
+    public Vector2 ledgeDetectOffset;
     [SerializeField] private float _ledgeDetectDistance;
     [SerializeField] private LayerMask _ledgeMask;
+
+
+    // Wall detection
+    public bool isWallDetected;
+    [SerializeField] private float _wallTopDetectHeight;
+    [SerializeField] private float _wallBottomDetectHeight;
+    [SerializeField] private float _wallDetectectDistance;
+    [SerializeField] private LayerMask _wallMask;
 
 
     public void Initialize(IEnumerable<KeyValuePair<State, IWorkflow<State>>> copy)
@@ -163,12 +172,14 @@ public class CharacterMachine : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _states[current].OnFixdeUpdate();
-        _rigidbody.position += move * Time.fixedDeltaTime;
         DetectGround();
         DetectLadder();
         DetectLedge();
+        DetectWall();
 
+        _states[current].OnFixdeUpdate();
+        _rigidbody.position += move * Time.fixedDeltaTime;
+        
     }
 
     private void LateUpdate()
@@ -227,12 +238,12 @@ public class CharacterMachine : MonoBehaviour
     private void DetectLedge()
     {
         RaycastHit2D hit =
-            Physics2D.Raycast(_rigidbody.position + new Vector2(ledgeDetecOffset.x * direction, ledgeDetecOffset.y),
+            Physics2D.Raycast(_rigidbody.position + new Vector2(ledgeDetectOffset.x * direction, ledgeDetectOffset.y),
                               Vector2.down,
                               _ledgeDetectDistance,
                               _ledgeMask);
         if (hit.collider &&
-            Physics2D.Raycast(_rigidbody.position + new Vector2(ledgeDetecOffset.x * direction, ledgeDetecOffset.y),
+            Physics2D.Raycast(_rigidbody.position + new Vector2(ledgeDetectOffset.x * direction, ledgeDetectOffset.y),
                               Vector2.up,
                               _ledgeDetectDistance,
                               _ledgeMask) == false)
@@ -244,6 +255,26 @@ public class CharacterMachine : MonoBehaviour
         else
         {
             isLedgeDetected = false;
+        }
+    }
+
+    private void DetectWall()
+    {
+        if (Physics2D.Raycast(_rigidbody.position + Vector2.up * _wallTopDetectHeight,
+                               Vector2.right * _direction,
+                               _wallDetectectDistance,
+                               _wallMask).collider &&
+            Physics2D.Raycast(_rigidbody.position + Vector2.up * _wallBottomDetectHeight,
+                               Vector2.right * _direction,
+                               _wallDetectectDistance,
+                               _wallMask).collider)         
+                   
+        {
+            isWallDetected = true;
+        }
+        else
+        {
+            isWallDetected = false;
         }
     }
 
@@ -263,8 +294,14 @@ public class CharacterMachine : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position + Vector3.up * _ladderDownDetectOffset, _ladderDetectRadius);
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position + (Vector3)ledgeDetecOffset,
-                        transform.position + (Vector3)ledgeDetecOffset + Vector3.down * _ledgeDetectDistance);
+        Gizmos.DrawLine(transform.position + (Vector3)ledgeDetectOffset,
+                        transform.position + (Vector3)ledgeDetectOffset + Vector3.down * _ledgeDetectDistance);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position + Vector3.up * _wallTopDetectHeight,
+                        transform.position + Vector3.up * _wallTopDetectHeight + Vector3.right * _direction * _wallDetectectDistance);
+        Gizmos.DrawLine(transform.position + Vector3.up * _wallBottomDetectHeight,
+                        transform.position + Vector3.up * _wallBottomDetectHeight + Vector3.right * _direction * _wallDetectectDistance);
     }
 }
 

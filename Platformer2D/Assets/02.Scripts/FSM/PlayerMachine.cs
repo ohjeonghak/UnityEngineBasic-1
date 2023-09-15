@@ -29,6 +29,18 @@ public class PlayerMachine : CharacterMachine
            if (ChangeState(State.Jump) == false)
                 ChangeState(State.SecondJump);
         }
+
+        if (Input.GetKey(KeyCode.RightArrow) ||
+            Input.GetKey(KeyCode.LeftArrow))
+        {
+            ChangeState(State.WallSlide);
+        }
+        else if (current == State.WallSlide)
+        {
+            ChangeState(State.Idle);
+        }
+
+
         if (Input.GetKeyDown(KeyCode.UpArrow)) 
         {
             ChangeState(State.LedgeClimb);
@@ -41,11 +53,12 @@ public class PlayerMachine : CharacterMachine
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if (canLadderDown)
+            if (canLadderDown && current == State.Idle && (upLadder != downLadder))
                 ChangeState(State.LadderClimbing, new object[] { downLadder, DiRECTION_DOWN });
             else
                ChangeState(State.Crouch);
         }
+
         else if (Input.GetKeyUp(KeyCode.DownArrow))
         {
             if (current == State.Crouch)
