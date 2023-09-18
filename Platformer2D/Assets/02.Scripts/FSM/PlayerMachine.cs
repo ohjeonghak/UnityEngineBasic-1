@@ -64,5 +64,10 @@ public class PlayerMachine : CharacterMachine
             if (current == State.Crouch)
             ChangeState(State.Idle);
         }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            ChangeState(State.Attack);
+        }
     }
 }

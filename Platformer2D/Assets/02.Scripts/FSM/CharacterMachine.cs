@@ -4,8 +4,6 @@ using System.Linq;
 using System.Security.Cryptography;
 
 public enum State
-
-
 {
     None,
     Idle,
@@ -20,6 +18,7 @@ public enum State
     Ledge,
     LedgeClimb,
     WallSlide,
+    Attack,
 }
 
 
