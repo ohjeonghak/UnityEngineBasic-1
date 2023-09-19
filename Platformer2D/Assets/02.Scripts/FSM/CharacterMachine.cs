@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using System;
 
 public enum State
 {
@@ -19,15 +20,18 @@ public enum State
     LedgeClimb,
     WallSlide,
     Attack,
+    Hurt,
+    Die,
 }
 
 
-public class CharacterMachine : MonoBehaviour
+public class CharacterMachine : MonoBehaviour, IHp
 {
     // Direction
 
     public int direction
-    { get => _direction; 
+    {
+        get => _direction;
         set
         {
             if (isDirectionChangeable == false)
@@ -49,24 +53,24 @@ public class CharacterMachine : MonoBehaviour
             else
                 throw new System.Exception("[CharacterMachine] : Invalid direction (0).");
         }
-    
+
     }
     private int _direction = DIRECTION_RIGHT;
     [HideInInspector] public bool isDirectionChangeable;
-   
+
     public const int DIRECTION_RIGHT = 1;
     public const int DIRECTION_LEFT = -1;
     public const int DiRECTION_UP = 1;
     public const int DiRECTION_DOWN = -1;
 
     //Movement
-    public  virtual float horizontal { get; set; }
+    public virtual float horizontal { get; set; }
     public float speed;
     public virtual float vertical { get; set; }
     [HideInInspector] public Vector2 move;
     [HideInInspector] public bool isMovable;
     private Rigidbody2D _rigidbody;
-    
+
     public State current;
     public State previous;
     private Dictionary<State, IWorkflow<State>> _states;
@@ -79,11 +83,11 @@ public class CharacterMachine : MonoBehaviour
 
     //Ground
     public bool isGrounded { get; private set; }
-    public Collider2D ground { get; private set;}    
-    public bool isGroundExistBelow {get; private set;}       
-    
-      
-    
+    public Collider2D ground { get; private set; }
+    public bool isGroundExistBelow { get; private set; }
+
+
+
     [Header("Ground Detection")]
     [SerializeField] private Vector2 _groundDetectCenter;
     [SerializeField] private Vector2 _groundDetectSize;
@@ -96,7 +100,10 @@ public class CharacterMachine : MonoBehaviour
     public bool canLadderUp { get; private set; }
     public bool canLadderDown { get; private set; }
     public Ladder upLadder { get; private set; }
-    public Ladder downLadder { get;private set; }
+    public Ladder downLadder { get; private set; }
+
+
+
     [SerializeField] private float _ladderUpDetectOffset;
     [SerializeField] private float _ladderDownDetectOffset;
     [SerializeField] private float _ladderDetectRadius;
@@ -117,6 +124,46 @@ public class CharacterMachine : MonoBehaviour
     [SerializeField] private float _wallDetectectDistance;
     [SerializeField] private LayerMask _wallMask;
 
+    //Hp
+    public float hpValue
+    {
+        get => _hpValue;
+        private set
+        {
+            if (value == _hpValue)
+                return;
+
+            if (value > _hpMax)
+                value = _hpMax;
+            else if (value < hpMin)
+                value = hpMin;
+
+
+            _hpValue = value;
+            onHpChanged?.Invoke(value);
+
+           if (value == hpMax)
+                onHpMax?.Invoke();
+            else if (value == hpMin)
+                onHpMin?.Invoke();
+        }
+    }
+    public float hpMax => _hpMax;
+
+    public float hpMin => 0.0f;
+
+
+
+
+    private float _hpValue;
+    [SerializeField] private float _hpMax;
+
+    public event Action<float> onHpChanged;
+    public event Action<float> onHpRecovered;
+    public event Action<float> onHpDepleted;
+    public event Action onHpMax;
+    public event Action onHpMin;
+
 
     public void Initialize(IEnumerable<KeyValuePair<State, IWorkflow<State>>> copy)
     {
@@ -127,7 +174,7 @@ public class CharacterMachine : MonoBehaviour
     public bool ChangeState(State newState, object[] parameters = null)
     {
         if (_isDirty)
-         return false;
+            return false;
         if (newState == current)
             return false;
 
@@ -135,7 +182,7 @@ public class CharacterMachine : MonoBehaviour
             return false;
 
 
-        
+
         _states[current].OnExit();
         previous = current;
         current = newState;
@@ -150,12 +197,14 @@ public class CharacterMachine : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         _rigidbody = GetComponent<Rigidbody2D>();
         direction = DIRECTION_RIGHT;
+        _hpValue = _hpMax;
+
     }
 
 
     protected virtual void Update()
     {
-       ChangeState(_states[current].OnUpdate());
+        ChangeState(_states[current].OnUpdate());
 
         if (isMovable)
         {
@@ -178,7 +227,7 @@ public class CharacterMachine : MonoBehaviour
 
         _states[current].OnFixdeUpdate();
         _rigidbody.position += move * Time.fixedDeltaTime;
-        
+
     }
 
     private void LateUpdate()
@@ -188,10 +237,10 @@ public class CharacterMachine : MonoBehaviour
 
     private void DetectGround()
     {
-       ground = Physics2D.OverlapBox(_rigidbody.position + _groundDetectCenter,
-                                        _groundDetectSize,
-                                        0.0f,
-                                        _groundMask);
+        ground = Physics2D.OverlapBox(_rigidbody.position + _groundDetectCenter,
+                                         _groundDetectSize,
+                                         0.0f,
+                                         _groundMask);
 
         isGrounded = ground;
 
@@ -212,7 +261,7 @@ public class CharacterMachine : MonoBehaviour
 
 
         }
-       
+
     }
 
     private void DetectLadder()
@@ -266,8 +315,8 @@ public class CharacterMachine : MonoBehaviour
             Physics2D.Raycast(_rigidbody.position + Vector2.up * _wallBottomDetectHeight,
                                Vector2.right * _direction,
                                _wallDetectectDistance,
-                               _wallMask).collider)         
-                   
+                               _wallMask).collider)
+
         {
             isWallDetected = true;
         }
@@ -302,6 +351,31 @@ public class CharacterMachine : MonoBehaviour
         Gizmos.DrawLine(transform.position + Vector3.up * _wallBottomDetectHeight,
                         transform.position + Vector3.up * _wallBottomDetectHeight + Vector3.right * _direction * _wallDetectectDistance);
     }
+
+    void IHp.RecoverHp(object subject, float amount)
+    {
+        if (amount <= 0) 
+            return;
+
+        hpValue += amount;
+        onHpRecovered?.Invoke(amount);
+    }
+
+    void IHp.DepleteHp(object subject, float amount)
+    {
+        if (amount <= 0)
+            return;
+
+        hpValue -= amount;
+        onHpRecovered?.Invoke(amount);
+        ChangeState(State.Hurt);
+        
+    }
 }
+
+
+   
+
+    
 
 

@@ -12,6 +12,8 @@ public class PlayerMachine : CharacterMachine
     private void Start()
     {
         Initialize(CharacterStateWorkflowsDataSheet.GetWorkflowsForPlayer(this));
+        onHpDepleted += (amount) => ChangeState(State.Hurt);
+        onHpMin += () => ChangeState(State.Die);
     }
 
     public override float vertical
