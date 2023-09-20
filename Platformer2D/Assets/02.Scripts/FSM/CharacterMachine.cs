@@ -326,7 +326,7 @@ public class CharacterMachine : MonoBehaviour, IHp
         }
     }
 
-    private void OnDrawGizmos()
+    protected virtual void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(transform.position + (Vector3)_groundDetectCenter,
