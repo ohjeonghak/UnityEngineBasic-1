@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager.Requests;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public static class CharacterStateWorkflowsDataSheet
 {
@@ -23,6 +25,8 @@ public static class CharacterStateWorkflowsDataSheet
         protected Rigidbody2D rigidbody;
         protected CapsuleCollider2D[] colliders;
         protected Animator animator;
+        protected bool hasFixedUpdatedAtVeryFirst;
+
 
         public WorkflowBase(CharacterMachine machine)
         {
@@ -33,12 +37,19 @@ public static class CharacterStateWorkflowsDataSheet
             this.colliders = machine.GetComponentsInChildren<CapsuleCollider2D>();
         }
 
-        public abstract State OnUpdate();
-
-
+        public virtual State OnUpdate()
+        {
+            return hasFixedUpdatedAtVeryFirst ? ID : State.None;
+        }             
+                        
         public virtual void OnFixdeUpdate()
         {
+            if (hasFixedUpdatedAtVeryFirst == false)
+            {
+                hasFixedUpdatedAtVeryFirst = true;
+            }
         }
+        
 
 
 
@@ -47,7 +58,11 @@ public static class CharacterStateWorkflowsDataSheet
             current = 0;
         }
 
-        public virtual void OnEnter(object[] parameters) { Reset(); }
+        public virtual void OnEnter(object[] parameters) 
+        {
+            hasFixedUpdatedAtVeryFirst = false;
+            Reset();
+        }
         public virtual void OnExit() {  }
 
     }
@@ -73,7 +88,10 @@ public static class CharacterStateWorkflowsDataSheet
 
 
         {
-            State next = ID;
+            State next = base.OnUpdate();
+
+            if (next == State.None)
+                return ID;
 
             switch (current)
             {
@@ -113,7 +131,10 @@ public static class CharacterStateWorkflowsDataSheet
         }
         public override State OnUpdate()
         {
-            State next = ID;
+            State next = base.OnUpdate();
+
+            if (next == State.None)
+                return ID;
 
             switch (current)
             {
@@ -173,7 +194,10 @@ public static class CharacterStateWorkflowsDataSheet
         }
         public override State OnUpdate()
         {
-            State next = ID;
+            State next = base.OnUpdate();
+
+            if (next == State.None)
+                return ID;
 
             switch (current)
             {
@@ -234,7 +258,10 @@ public static class CharacterStateWorkflowsDataSheet
 
         public override State OnUpdate()
         {
-            State next = ID;
+            State next = base.OnUpdate();
+
+            if (next == State.None)
+                return ID;
 
             switch (current)
             {
@@ -314,7 +341,10 @@ public static class CharacterStateWorkflowsDataSheet
         }
         public override State OnUpdate()
         {
-            State next = ID;
+            State next = base.OnUpdate();
+
+            if (next == State.None)
+                return ID;
 
             switch (current)
             {
@@ -368,7 +398,10 @@ public static class CharacterStateWorkflowsDataSheet
         }
         public override State OnUpdate()
         {
-            State next = ID;
+            State next = base.OnUpdate();
+
+            if (next == State.None)
+                return ID;
 
             switch (current)
             {
@@ -407,7 +440,10 @@ public static class CharacterStateWorkflowsDataSheet
         }
         public override State OnUpdate()
         {
-            State next = ID;
+            State next = base.OnUpdate();
+
+            if (next == State.None)
+                return ID;
 
             switch (current)
             {
@@ -477,7 +513,10 @@ public static class CharacterStateWorkflowsDataSheet
         }
         public override State OnUpdate()
         {
-            State next = ID;
+            State next = base.OnUpdate();
+
+            if (next == State.None)
+                return ID;
 
             switch (current)
             {
@@ -526,7 +565,7 @@ public static class CharacterStateWorkflowsDataSheet
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="parameters">0 : (Ladder), ↑ : 위/아래(int) </param>
+        /// <param name="parameters">0 : (Ladder), 1 : 위/아래(int) </param>
 
         public override void OnEnter(object[] parameters)
         {
@@ -564,7 +603,10 @@ public static class CharacterStateWorkflowsDataSheet
         }
         public override State OnUpdate()
         {
-            State next = ID;
+            State next = base.OnUpdate();
+
+            if (next == State.None)
+                return ID;
 
             switch (current)
             {
@@ -614,21 +656,21 @@ public static class CharacterStateWorkflowsDataSheet
                     {
                         if (machine.isGrounded)
                         {
-
+                            //nothing to do
                         }
                         else if (transform.position.y > _ladder.upEndPos.y)
                         {
-
+                            //nothing to do
 
                         }
                         else if (transform.position.y < _ladder.downEndPos.y)
                         {
-
+                            //nothing to do
                         }
                         else
                         {
                             animator.speed = Mathf.Abs(_vertical);
-                            transform.position += Vector3.up * machine.vertical * _climbingSpeed * Time.deltaTime;
+                            transform.position += Vector3.up * _vertical * _climbingSpeed * Time.fixedDeltaTime;
                         }
                     }
                     break;
@@ -668,7 +710,10 @@ public static class CharacterStateWorkflowsDataSheet
         
         public override State OnUpdate()
         {
-            State next = ID;
+            State next = base.OnUpdate();
+
+            if (next == State.None)
+                return ID;
 
             switch (current)
             {
@@ -739,7 +784,10 @@ public static class CharacterStateWorkflowsDataSheet
 
         public override State OnUpdate()
         {
-            State next = ID;
+            State next = base.OnUpdate();
+
+            if (next == State.None)
+                return ID;
 
             switch (current)
             {
@@ -822,7 +870,10 @@ public static class CharacterStateWorkflowsDataSheet
 
         public override State OnUpdate()
         {
-            State next = ID;
+            State next = base.OnUpdate();
+
+            if (next == State.None)
+                return ID;
 
             switch (current)
             {
@@ -890,12 +941,52 @@ public static class CharacterStateWorkflowsDataSheet
         private bool _hasHit;
         private AnimatorEvents _animatorEvents;
 
-        public Attack(CharacterMachine machine, int comboMax, float comboResetTime) : base(machine)
+
+        public class AttackSetting
+        {
+            public Vector2 center;
+            public Vector2 size;
+            public LayerMask targetMask;
+            public float distance;
+            public int targetMax;
+            public float damageGain;
+
+            public AttackSetting(Vector2 conter, Vector2 size, LayerMask targetMask, float distance, int targetMax, float damageGain)
+            {
+                this.center = center;
+                this.size = size;
+                this.targetMask = targetMask;
+                this.distance = distance;
+                this.targetMax = targetMax;
+                this.damageGain = damageGain;
+            }
+        }
+        private AttackSetting[] _attackSettings;
+        private List<CharacterMachine> _targets = new List<CharacterMachine>();
+
+        public Attack(CharacterMachine machine, int comboMax, float comboResetTime, AttackSetting[] attackSettings) : base(machine)
         {
             _comboMax = comboMax;
             _comboResetTime = comboResetTime;
             _animatorEvents = machine.GetComponentInChildren<AnimatorEvents>();
             _animatorEvents.onAttackHit += () => _hasHit = true;
+            _attackSettings = attackSettings;
+
+            _animatorEvents.onAttackHit += () =>
+            {
+                foreach (var target in _targets)
+                {
+                    if (target != null)
+                    {
+                        continue;
+                    }
+                    target.DepleteHp(machine, Random.Range(machine._attackForceMin, machine._attackForceMax) * _attackSettings[_combo -1].damageGain);
+                    target.KnockBack(new Vector2(machine.direction, 0.0f));
+                }
+
+                _hasHit = true;
+            };
+
         }
 
         public override void OnEnter(object[] parameters)
@@ -903,6 +994,7 @@ public static class CharacterStateWorkflowsDataSheet
             base.OnEnter(parameters);
             machine.isDirectionChangeable = false;
             machine.isMovable = false;
+            
             if (machine.isGrounded)
             {
                 machine.move = Vector2.zero;
@@ -911,7 +1003,30 @@ public static class CharacterStateWorkflowsDataSheet
             _hasHit = false;
             animator.SetFloat("attackComboStack", _combo++);
             animator.Play("Attack");
-        
+
+            AttackSetting setting = _attackSettings[_combo];
+
+            RaycastHit2D[] hits =
+            Physics2D.BoxCastAll(origin: rigidbody.position + new Vector2(setting.center.x * machine.direction, setting.center.y),
+                                 size: setting.size,
+                                 angle: 0.0f,
+                                 direction: Vector2.right * machine.direction,
+                                 distance: setting.distance,
+                                 layerMask: setting.targetMask);
+            _targets.Clear();
+
+            for (int i = 0; i < hits.Length; i++)
+            {
+                if (i >= setting.targetMax)
+                    break;
+
+                if (hits[i].collider.TryGetComponent(out CharacterMachine character))
+                {
+                    _targets.Add(character);
+                    
+                }
+            }
+
         }
 
         public override void OnExit()
@@ -924,7 +1039,10 @@ public static class CharacterStateWorkflowsDataSheet
 
 
         {
-            State next = ID;
+            State next = base.OnUpdate();
+
+            if (next == State.None)
+                return ID;
 
             switch (current)
             {
@@ -935,6 +1053,26 @@ public static class CharacterStateWorkflowsDataSheet
                         {
                             next = State.Idle;
                         }
+
+                        if (_hasHit)
+                        {
+                            AttackSetting setting = _attackSettings[_combo - 1];
+                            Vector2 center = rigidbody.position + new Vector2(setting.center.x * machine.direction, setting.center.y);
+                            Vector2 size = setting.size;
+                            float distdance = setting.distance;
+
+                            Debug.DrawLine(center + new Vector2(-size.x / 2.0f * machine.direction, size.y / 2.0f),
+                                           center + new Vector2(+size.x / 2.0f * machine.direction, size.y / 2.0f) + Vector2.right * machine.direction * distdance);
+                            
+                            Debug.DrawLine(center + new Vector2(-size.x / 2.0f * machine.direction, -size.y / 2.0f),
+                                           center + new Vector2(+size.x / 2.0f * machine.direction, -size.y / 2.0f) + Vector2.right * machine.direction * distdance);
+                            
+                            Debug.DrawLine(center + new Vector2(-size.x / 2.0f * machine.direction, size.y / 2.0f),
+                                           center + new Vector2(+size.x / 2.0f * machine.direction, -size.y / 2.0f));
+
+                            Debug.DrawLine(center + new Vector2(-size.x / 2.0f * machine.direction, -size.y / 2.0f) + Vector2.right * machine.direction * distdance,
+                                           center + new Vector2(+size.x / 2.0f * machine.direction, size.y / 2.0f) + Vector2.right * machine.direction * distdance);
+                        }   
                     }
                     break;
             }
@@ -978,7 +1116,10 @@ public static class CharacterStateWorkflowsDataSheet
         }
         public override State OnUpdate()
         {
-            State next = ID;
+            State next = base.OnUpdate();
+
+            if (next == State.None)
+                return ID;
 
             switch (current)
             {
@@ -1020,7 +1161,10 @@ public static class CharacterStateWorkflowsDataSheet
         }
         public override State OnUpdate()
         {
-            State next = ID;
+            State next = base.OnUpdate();
+
+            if (next == State.None)
+                return ID;
 
             switch (current)
             {
@@ -1056,7 +1200,12 @@ public static class CharacterStateWorkflowsDataSheet
         { State.Ledge, new Ledge(machine) },
         { State.LedgeClimb, new LedgeClimb(machine) },
         { State.WallSlide, new WallSlide(machine, 0.8f) },
-        { State.Attack, new Attack(machine, 2, 0.3f) },
+        { State.Attack, new Attack(machine, 2, 0.3f, new Attack.AttackSetting[3]
+            {
+            new Attack.AttackSetting(new Vector2(0.2f, 0.18f), new Vector2(0.45f, 0.4f), LayerMask.NameToLayer("Enemy"),0.0f, 2, 0.8f),
+            new Attack.AttackSetting(new Vector2(0.2f, 0.18f), new Vector2(0.45f, 0.4f), LayerMask.NameToLayer("Enemy"),0.0f, 2, 0.95f),
+            new Attack.AttackSetting(new Vector2(0.2f, 0.18f), new Vector2(0.45f, 0.4f), LayerMask.NameToLayer("Enemy"),0.2f, 2, 1.3f),
+            }) },
         { State.Hurt, new Hurt(machine) },
         { State.Die, new Die(machine) },
          
@@ -1082,7 +1231,8 @@ public static class CharacterStateWorkflowsDataSheet
         { State.Ledge, new Ledge(machine) },
         { State.LedgeClimb, new LedgeClimb(machine) },
         { State.WallSlide, new WallSlide(machine, 0.8f) },
-        { State.Attack, new Attack(machine, 0, 0.0f) },
+        { State.Attack, new Attack(machine, 0, 0.0f, new Attack.AttackSetting[3]
+        ) },
         { State.Hurt, new Hurt(machine) },
         { State.Die, new Die(machine) },
 
