@@ -969,7 +969,6 @@ public static class CharacterStateWorkflowsDataSheet
             _comboMax = comboMax;
             _comboResetTime = comboResetTime;
             _animatorEvents = machine.GetComponentInChildren<AnimatorEvents>();
-            _animatorEvents.onAttackHit += () => _hasHit = true;
             _attackSettings = attackSettings;
 
             _animatorEvents.onAttackHit += () =>
@@ -1005,10 +1004,7 @@ public static class CharacterStateWorkflowsDataSheet
                 machine.move = Vector2.zero;
                 rigidbody.velocity = Vector2.zero;
             }
-            _hasHit = false;
-            animator.SetFloat("attackComboStack", _combo++);
-            animator.Play("Attack");
-
+           
             AttackSetting setting = _attackSettings[_combo];
 
             RaycastHit2D[] hits =
@@ -1031,6 +1027,9 @@ public static class CharacterStateWorkflowsDataSheet
                     
                 }
             }
+            _hasHit = false;
+            animator.SetFloat("attackComboStack", _combo++);
+            animator.Play("Attack");
 
         }
 
@@ -1171,18 +1170,7 @@ public static class CharacterStateWorkflowsDataSheet
             if (next == State.None)
                 return ID;
 
-            switch (current)
-            {
-               
-                default:
-                    {
-                        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
-                        {
-                            GameObject.Destroy(machine.gameObject);
-                        }
-                    }
-                    break;
-            }
+           
             return next;
         }
     }
@@ -1236,7 +1224,7 @@ public static class CharacterStateWorkflowsDataSheet
         { State.Ledge, new Ledge(machine) },
         { State.LedgeClimb, new LedgeClimb(machine) },
         { State.WallSlide, new WallSlide(machine, 0.8f) },
-        { State.Attack, new Attack(machine, 0, 0.0f, new Attack.AttackSetting[3]
+        { State.Attack, new Attack(machine, 0, 0.0f, null
         ) },
         { State.Hurt, new Hurt(machine) },
         { State.Die, new Die(machine) },

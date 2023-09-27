@@ -8,7 +8,7 @@ using UnityEngine.XR;
 
 public class EnemyMachine : CharacterMachine
 {
-    private enum AI
+    public enum AI
     {
         None,
         Think,
@@ -19,8 +19,14 @@ public class EnemyMachine : CharacterMachine
 
 
     }
+    public AI ai
+    {
+        get => _ai;
+        set => _ai = value;
+    }
 
-    private AI _ai;
+
+    [SerializeField] private AI _ai;
     private Transform _target;
     private List<State> _aiBehavious = new List<State>() {State.Idle, State.Move, State.Jump };
 
