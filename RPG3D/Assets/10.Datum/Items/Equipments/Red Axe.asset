@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8fecafd004dd7e46947fb1037850fda, type: 3}
+  m_Name: Red Axe
+  m_EditorClassIdentifier: 
+  id: {fileID: 11400000, guid: 07ff19e06ad94df4893882df3644b9b7, type: 2}
+  icon: {fileID: 21300000, guid: b431c693ab9dfc8448a95fea02faf3a7, type: 3}
+  description: This is a red axe.
+  numMax: 1
+  buyPrice: 300000
+  sellPrice: 100000
+  model: {fileID: 2657625865324565839, guid: 8b619c2273fa4e1478003dbcbaf3223b, type: 3}
+  bodyPart: 7
+  levelRequired: 6
