@@ -2431,6 +2431,7 @@ GameObject:
   - component: {fileID: 4004643428922575}
   - component: {fileID: 95333329314239523}
   - component: {fileID: 114220575330764423}
+  - component: {fileID: 114220575330764424}
   m_Layer: 0
   m_Name: 04_yuji
   m_TagString: Untagged
@@ -12696,6 +12697,20 @@ MonoBehaviour:
   collisionColor: {r: 1, g: 0, b: 0, a: 1}
   groundCollisionColor: {r: 0, g: 1, b: 0, a: 1}
   angleLimitDrawScale: 0.05
+--- !u!114 &114220575330764424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066587003387723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20c1d9f64fcc1b943a8bf4a5f1551a33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateLayerMaskData: {fileID: 11400000, guid: 4db8699b24edaa8468c4f6207b2d9534,
+    type: 2}
 --- !u!114 &114223102463424559
 MonoBehaviour:
   m_ObjectHideFlags: 0
