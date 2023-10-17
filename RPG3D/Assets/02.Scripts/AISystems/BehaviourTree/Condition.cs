@@ -4,12 +4,12 @@ using System;
 
 namespace RPG.AISystems.BehaviourTree
 {
-    public class COndition : Node, IParentOFChild
+    public class Condition : Node, IParentOFChild
     {
         public Node child { get; set; }
         private Func<bool> _func;
 
-        public COndition(Func<bool> func)
+        public Condition(BlackBoard blackBoard, Func<bool> func) : base(blackBoard)
         {
             _func = func;
         }
@@ -18,7 +18,7 @@ namespace RPG.AISystems.BehaviourTree
         {
             if (_func.Invoke())
             {
-                return child.Invoke();
+                return Result.Success;
             }
             return Result.Failure;
 
