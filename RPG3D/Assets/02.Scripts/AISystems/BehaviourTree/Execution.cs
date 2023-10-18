@@ -6,7 +6,7 @@ namespace RPG.AISystems.BehaviourTree
     {
         private Func<Result> _execute;
 
-            protected Execution(BlackBoard blackBoard, Func<Result> execute) :
+            public Execution(BlackBoard blackBoard, Func<Result> execute) :
             base (blackBoard)
             {
                 _execute = execute;

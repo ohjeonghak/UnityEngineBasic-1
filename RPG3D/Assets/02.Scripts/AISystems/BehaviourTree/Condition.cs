@@ -1,5 +1,5 @@
 
-
+using UnityEngine;
 using System;
 
 namespace RPG.AISystems.BehaviourTree
@@ -18,7 +18,12 @@ namespace RPG.AISystems.BehaviourTree
         {
             if (_func.Invoke())
             {
-                return Result.Success;
+                // owner.stack.Push(child);
+                // return Result.Success;
+                Debug.Log($"[Tree] : Invoking ... {child}");
+                Result result = child.Invoke();
+                Debug.Log($"[Tree] : invoked ... {child} , result : {result}");
+                return result;
             }
             return Result.Failure;
 

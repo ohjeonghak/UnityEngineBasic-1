@@ -19,10 +19,10 @@ namespace RPG.AISystems.BehaviourTree
             {
                 if (i <= currentIndex)
                     continue;
-
+                Debug.Log($"[Tree] : Invoking ... {children[i]}");
 
                 result = children[i].Invoke();
-
+                Debug.Log($"[Tree] : invoked ... {children[i]} , result : {result}");
                 switch (result)
                 {
                     case Result.Failure:
@@ -33,7 +33,7 @@ namespace RPG.AISystems.BehaviourTree
                         return Result.Success;
                     case Result.Running:
                         owner.stack.Push(children[i]);
-                        break;
+                        return Result.Running;
                     default:
                         break;
                 }
