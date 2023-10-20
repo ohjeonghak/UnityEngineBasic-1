@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Linq;
+using UnityEngine.AI;
 
 namespace RPG.AISystems.BehaviourTree
 {
@@ -25,16 +26,48 @@ namespace RPG.AISystems.BehaviourTree
 
         public override Result Invoke()
         {
+            if (blackBoard.target != null)
+            {
+               float distance = Vector3.Distance(blackBoard.target.position,
+                                                blackBoard.agent.nextPosition);
+                if(distance < blackBoard.agent.stoppingDistance)
+                {
+                    return Result.Success;
+                }
+                else
+                {
+                    if(distance > _radius)
+                    {
+                        blackBoard.target = null;
+                        blackBoard.agent.SetDestination(blackBoard.transform.position);
+                        return Result.Failure;
+                    }
+                    else
+                    {
+                        blackBoard.agent.SetDestination(blackBoard.target.position);
+                        return Result.Running;
+                    }
+                }
+            }
             Collider[] cols =
                 Physics.OverlapCapsule(blackBoard.transform.position,
                                        blackBoard.transform.position + _offset,
                                        _radius,
                                        _targetMask);
                   
-            Collider col = cols.First(x => IsInSight(x.transform.position));
+            Collider col = cols.FirstOrDefault(x => IsInSight(x.transform.position));
 
             if (col)
             {
+                //if (NavMesh.SamplePosition(col.transform.position,
+                //                          out NavMeshHit hit,
+                //                          float.PositiveInfinity,
+                //                          NavMesh.AllAreas))
+                //{
+                //    blackBoard.target = col.transform;
+                //    blackBoard.agent.SetDestination(col.transform.position);
+                //    return Result.Success;
+                //}
                 blackBoard.target = col.transform;
                 blackBoard.agent.SetDestination(col.transform.position);
                 return Result.Success;
@@ -45,6 +78,7 @@ namespace RPG.AISystems.BehaviourTree
                 blackBoard.agent.isStopped = true;
                 return Result.Failure;
             }
+            
         }
         
         private bool IsInSight(Vector3 target)

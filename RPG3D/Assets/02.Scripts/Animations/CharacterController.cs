@@ -19,8 +19,9 @@ public abstract class CharacterController : MonoBehaviour
     public abstract float horizontal { get; }
 
     public abstract float vertical { get; }
-    public Vector3 move;
+    
     public abstract float moveGain { get; }
+    public Vector3 move;
     public bool isMovable
     {
         get
@@ -51,6 +52,13 @@ public abstract class CharacterController : MonoBehaviour
     [SerializeField] private float _slope = 45.0f;
     private Rigidbody _rigidbody;
 
+    public virtual bool useAI
+    {
+        get => _useAi; 
+        set => _useAi = value;
+    }
+    [SerializeField] private bool _useAi;
+
 
     protected virtual void Awake()
     {
@@ -59,7 +67,7 @@ public abstract class CharacterController : MonoBehaviour
         BehaviourBase[] behaviours = _animator.GetBehaviours<BehaviourBase>();
         for (int i = 0; i < behaviours.Length; i++)
         {
-            behaviours[i].Init(this,_stateLayerMaskData);
+            behaviours[i].Init(this, _stateLayerMaskData);
         }
 
         Array layers = Enum.GetValues(typeof(AnimatorLayer));
@@ -91,16 +99,19 @@ public abstract class CharacterController : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
+        if (_useAi)
+            return;
+
         if (DetectGround())
         {
            _inertia.y = 0.0f;
         }
         else
-        {
+        
             _inertia.y += Physics.gravity.y * Time.fixedDeltaTime;
-        }
+        
         
         if (_inertia.magnitude > 0.0f)
             transform.Translate(_inertia * Time.fixedDeltaTime);
@@ -215,7 +226,7 @@ public abstract class CharacterController : MonoBehaviour
 
         
     }
-    private void OnDrawGizmos()
+    protected virtual void OnDrawGizmos()
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, _groundDetectRadius);

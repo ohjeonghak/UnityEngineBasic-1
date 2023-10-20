@@ -4349,13 +4349,13 @@ GameObject:
   m_Component:
   - component: {fileID: 568530222}
   - component: {fileID: 568530221}
-  - component: {fileID: 568530220}
   - component: {fileID: 568530219}
   - component: {fileID: 568530218}
-  - component: {fileID: 568530217}
   - component: {fileID: 568530223}
-  m_Layer: 10
-  m_Name: EnemyTree
+  - component: {fileID: 568530224}
+  - component: {fileID: 568530217}
+  m_Layer: 15
+  m_Name: EnemyTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4383,9 +4383,16 @@ MonoBehaviour:
   _groundDetectRadius: 0
   _groundMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   _slope: 45
+  _useAi: 0
   aiTree: {fileID: 0}
+  _seekRadius: 9
+  _seekAngle: 90
+  _seekMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  _seekOffset: {x: 0, y: 1, z: 0}
 --- !u!136 &568530218
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4406,9 +4413,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 2.3552644
+  m_Height: 1.9398828
   m_Direction: 1
-  m_Center: {x: -0.0000000047107145, y: 0.73852223, z: 0.000000006099234}
+  m_Center: {x: 0.0000000026394202, y: 0.94621503, z: -0.0000000051996762}
 --- !u!54 &568530219
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4436,28 +4443,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!195 &568530220
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 568530216}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!95 &568530221
 Animator:
   serializedVersion: 5
@@ -4487,17 +4472,16 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 568530216}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.006801178, y: -0.6337585, z: 0.04634058, w: 0.7721117}
-  m_LocalPosition: {x: 283.3, y: 0.66, z: 532.86}
+  m_LocalRotation: {x: 0.039531585, y: -0.9635149, z: 0.025118934, w: -0.26352477}
+  m_LocalPosition: {x: 283.20422, y: 0.63427573, z: 532.5775}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2091455100}
   - {fileID: 136828550}
   - {fileID: 565516452}
-  - {fileID: 1701658049}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 2.765, y: -78.648, z: 4.604}
+  m_LocalEulerAnglesHint: {x: 1.58, y: -210.664, z: -5.132}
 --- !u!114 &568530223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4510,6 +4494,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7082c9e05666dab44b63775b1282a8bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!195 &568530224
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 568530216}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &569501783
 GameObject:
   m_ObjectHideFlags: 0
@@ -11736,7 +11742,7 @@ GameObject:
   - component: {fileID: 1521405115}
   - component: {fileID: 1521405114}
   m_Layer: 0
-  m_Name: NavigationArea
+  m_Name: NavigationSurface
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13210,37 +13216,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1134168181}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1701658048
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1701658049}
-  m_Layer: 0
-  m_Name: CameraTaget
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1701658049
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1701658048}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.14, y: 1.71, z: -0.08}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 568530222}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1711825911
 GameObject:
@@ -16776,7 +16751,6 @@ GameObject:
   - component: {fileID: 4004643428922575}
   - component: {fileID: 95333329314239523}
   - component: {fileID: 114220575330764424}
-  - component: {fileID: 114220575330764425}
   - component: {fileID: 114220575330764427}
   - component: {fileID: 114220575330764426}
   m_Layer: 10
@@ -21903,7 +21877,7 @@ Transform:
   m_GameObject: {fileID: 1657405558289039}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -25818,28 +25792,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _slope: 45
---- !u!195 &114220575330764425
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1066587003387723}
-  m_Enabled: 0
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  _useAi: 0
 --- !u!136 &114220575330764426
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -25860,9 +25813,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 2.3552644
+  m_Height: 1.8957987
   m_Direction: 1
-  m_Center: {x: -0.0000000047107145, y: 0.73852223, z: 0.000000006099234}
+  m_Center: {x: -0.000000007614776, y: 0.9682551, z: 0.000000004013651}
 --- !u!54 &114220575330764427
 Rigidbody:
   m_ObjectHideFlags: 0
