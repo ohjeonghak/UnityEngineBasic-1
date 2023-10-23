@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class StateLayerMaskData : ScriptableObject
 {
-    public UDictionary<State, AnimatorLayer> animatorLayerPairs;
+    public UDictionary<State, AnimatorLayers> animatorLayerPairs;
 }

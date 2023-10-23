@@ -13,17 +13,12 @@ namespace RPG.AISystems.BehaviourTree
         public Stack<Node> stack;
         private IEnumerator _tickRoutine;
         private bool _isTicking;
-
         private void Awake()
         {
             blackBoard = new BlackBoard(this);
             _root = new Root(blackBoard);
             stack = new Stack<Node>();
-            
         }
-
-       
-
         private void Update()
         {
             if (_isTicking == false)
@@ -63,6 +58,8 @@ namespace RPG.AISystems.BehaviourTree
 
         public Tree StartBuild()
         {
+            blackBoard = new BlackBoard(this);
+            stack = new Stack<Node>();
             _root = new Root(blackBoard);
             _current = _root;
             _compositeStack = new Stack<Composite>();
@@ -115,6 +112,14 @@ namespace RPG.AISystems.BehaviourTree
         public Tree Seek(float radius, float angle, LayerMask targetMask, Vector3 offset)
         {
             Node node = new Seek(blackBoard, radius, angle, targetMask, offset);
+            Attach(_current, node);
+            _current = _compositeStack.Count > 0 ? _compositeStack.Peek() : null;
+            return this;
+        }
+
+        public Tree Attack()
+        {
+            Node node = new Attack(blackBoard);
             Attach(_current, node);
             _current = _compositeStack.Count > 0 ? _compositeStack.Peek() : null;
             return this;

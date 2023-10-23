@@ -1,19 +1,16 @@
 using UnityEngine;
 
-
 namespace RPG.AISystems.BehaviourTree
 {
+
+    /// <summary>
+    /// 자식들을 차례대로 순회하면서 자식이 Failure/Running 반환하면
+    /// 해당 결과 반환. 모두 성공시 Success 반환
+    /// </summary>
     public class Sequence : Composite
     {
-        /// <summary>
-        /// 자식들을 차례대로 순회하면서 자식이 Failure/Running 반환하면
-        /// 해당 결과 반환. 모두 성공시 Success 반환
-        /// </summary>
-        
-        public Sequence(BlackBoard blackBoard) :
-            base(blackBoard)
+        public Sequence(BlackBoard blackBoard) : base(blackBoard)
         {
-
         }
 
         public override Result Invoke()
@@ -22,12 +19,15 @@ namespace RPG.AISystems.BehaviourTree
 
             for (int i = 0; i < children.Count; i++)
             {
-                if (i <= currentIndex)
+                if (i < currentIndex)
                     continue;
-                Debug.Log($"[Tree] : Invoking ... {children[i]}");
+
+                UnityEngine.Debug.Log($"[Tree] : Invoking ... {children[i]}");
 
                 result = children[i].Invoke();
-                Debug.Log($"[Tree] : invoked ... {children[i]} , result : {result}");
+
+                UnityEngine.Debug.Log($"[Tree] : Invoked ... {children[i]}, result : {result}");
+
                 switch (result)
                 {
                     case Result.Failure:
@@ -43,9 +43,9 @@ namespace RPG.AISystems.BehaviourTree
                         break;
                 }
             }
+
             currentIndex = 0;
-            return Result.Failure;
+            return result;
         }
     }
-
 }

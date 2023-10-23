@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [Flags]
-public enum AnimatorLayer
+public enum AnimatorLayers
 {
     None = 0 << 0,
     Base = 1 << 0,
@@ -30,17 +30,17 @@ public class BehaviourBase : StateMachineBehaviour
     {
         base.OnStateEnter(animator, stateInfo, layerIndex);
         controller.states[layerIndex] = state;
-        animator.SetBool($"dirty{(AnimatorLayer)(1 << layerIndex)}", false);
+        animator.SetBool($"dirty{(AnimatorLayers)(1 << layerIndex)}", false);
     }
 
     protected void ChangeState(Animator animator, State newState)
     {
         animator.SetInteger("state",(int)newState);
-
+        
         int layerIndex = 0;
-        foreach (AnimatorLayer layer in Enum.GetValues(typeof(AnimatorLayer)))
+        foreach (AnimatorLayers layer in Enum.GetValues(typeof(AnimatorLayers)))
         {
-            if (layer == AnimatorLayer.None)
+            if (layer == AnimatorLayers.None)
                 continue;
             
 

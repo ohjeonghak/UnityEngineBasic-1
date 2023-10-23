@@ -39,8 +39,9 @@ public abstract class CharacterController : MonoBehaviour
     }
 
     public State[] states;
+    public State next;
     private Animator _animator;
-    [SerializeField] private StateLayerMaskData _stateLayerMaskData;
+    public StateLayerMaskData stateLayerMaskData;
     public float comboResetTimer;
     public bool isComboAvailable;
     public int comboMax;
@@ -67,10 +68,10 @@ public abstract class CharacterController : MonoBehaviour
         BehaviourBase[] behaviours = _animator.GetBehaviours<BehaviourBase>();
         for (int i = 0; i < behaviours.Length; i++)
         {
-            behaviours[i].Init(this, _stateLayerMaskData);
+            behaviours[i].Init(this, stateLayerMaskData);
         }
 
-        Array layers = Enum.GetValues(typeof(AnimatorLayer));
+        Array layers = Enum.GetValues(typeof(AnimatorLayers));
         states = new State[layers.Length - 1];
         
     }
@@ -149,19 +150,36 @@ public abstract class CharacterController : MonoBehaviour
     }
 
 
-    protected void ChangeState(State newState)
+    public bool IsInState(State state)
+    {
+        int layerIndex = 0;
+        foreach (AnimatorLayers layer in Enum.GetValues(typeof(AnimatorLayers)))
+        {
+            if (layer == AnimatorLayers.None)
+                continue;
+
+            if ((layer & stateLayerMaskData.animatorLayerPairs[state]) > 0)
+            {
+                if (states[layerIndex] == state)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    public void ChangeState(State newState)
     {
         _animator.SetInteger("state", (int)newState);
-
+        next = newState;
         int layerIndex = 0;
-        foreach (AnimatorLayer layer in Enum.GetValues(typeof(AnimatorLayer)))
+        foreach (AnimatorLayers layer in Enum.GetValues(typeof(AnimatorLayers)))
         {
-            if (layer == AnimatorLayer.None)
+            if (layer == AnimatorLayers.None)
             {
                 continue;
             }
 
-            if ((layer & _stateLayerMaskData.animatorLayerPairs[newState]) > 0)
+            if ((layer & stateLayerMaskData.animatorLayerPairs[newState]) > 0)
             {
                 if (states[layerIndex] != newState)
                     _animator.SetBool($"dirty{layer}", true);
@@ -176,19 +194,19 @@ public abstract class CharacterController : MonoBehaviour
         }
     }
 
-    protected void ChangeStateForcely(State newState)
+    public void ChangeStateForcely(State newState)
     {
         _animator.SetInteger("state", (int)newState);
-
+        next = newState;
         int layerIndex = 0;
-        foreach (AnimatorLayer layer in Enum.GetValues(typeof(AnimatorLayer)))
+        foreach (AnimatorLayers layer in Enum.GetValues(typeof(AnimatorLayers)))
         {
-            if (layer == AnimatorLayer.None)
+            if (layer == AnimatorLayers.None)
             {
                 continue;
             }
 
-            if ((layer & _stateLayerMaskData.animatorLayerPairs[newState]) > 0)
+            if ((layer & stateLayerMaskData.animatorLayerPairs[newState]) > 0)
             {
                 _animator.SetBool($"dirty{layer}", true);
 

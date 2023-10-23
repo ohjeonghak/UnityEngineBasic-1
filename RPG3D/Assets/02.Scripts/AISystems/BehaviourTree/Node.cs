@@ -13,8 +13,8 @@ namespace RPG.AISystems.BehaviourTree
         protected BlackBoard blackBoard;
         public Node(BlackBoard blackboard)
         {
-            this.owner = blackBoard.owner;
             this.blackBoard = blackboard;
+            this.owner = blackboard.owner;
         }
         public abstract Result Invoke();
     }

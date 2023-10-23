@@ -4375,7 +4375,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   move: {x: 0, y: 0, z: 0}
   states: 
-  _stateLayerMaskData: {fileID: 0}
+  next: 0
+  stateLayerMaskData: {fileID: 11400000, guid: 4db8699b24edaa8468c4f6207b2d9534, type: 2}
   comboResetTimer: 0
   isComboAvailable: 0
   comboMax: 0
@@ -4387,12 +4388,13 @@ MonoBehaviour:
   _slope: 45
   _useAi: 0
   aiTree: {fileID: 0}
-  _seekRadius: 9
+  _seekRadius: 6
   _seekAngle: 90
   _seekMask:
     serializedVersion: 2
     m_Bits: 1024
   _seekOffset: {x: 0, y: 1, z: 0}
+  _attackRange: 6
 --- !u!136 &568530218
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4472,8 +4474,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 568530216}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.039531585, y: -0.9635149, z: 0.025118934, w: -0.26352477}
-  m_LocalPosition: {x: 283.20422, y: 0.63427573, z: 532.5775}
+  m_LocalRotation: {x: 0.04288228, y: -0.9124373, z: 0.018836584, w: -0.40652728}
+  m_LocalPosition: {x: 283.2093, y: 0.6313271, z: 532.5305}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4481,7 +4483,7 @@ Transform:
   - {fileID: 136828550}
   - {fileID: 565516452}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 1.58, y: -210.664, z: -5.132}
+  m_LocalEulerAnglesHint: {x: -0.028, y: -228.028, z: -5.369}
 --- !u!114 &568530223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11234,7 +11236,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1456905704}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.009667397, y: -0.6336547, z: 0.00791942, w: 0.7735151}
+  m_LocalRotation: {x: 0.009667406, y: -0.6336548, z: 0.007919429, w: 0.77351505}
   m_LocalPosition: {x: 293.3054, y: 2.7825816, z: 530.8865}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -25781,8 +25783,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   move: {x: 0, y: 0, z: 0}
   states: 
-  _stateLayerMaskData: {fileID: 11400000, guid: 4db8699b24edaa8468c4f6207b2d9534,
-    type: 2}
+  next: 0
+  stateLayerMaskData: {fileID: 11400000, guid: 4db8699b24edaa8468c4f6207b2d9534, type: 2}
   comboResetTimer: 0
   isComboAvailable: 0
   comboMax: 0
