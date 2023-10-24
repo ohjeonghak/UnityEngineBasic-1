@@ -124,6 +124,13 @@ namespace RPG.AISystems.BehaviourTree
             _current = _compositeStack.Count > 0 ? _compositeStack.Peek() : null;
             return this;
         }
+        public Tree Patrol(float radius, float periodMin, float periodMax)
+        {
+            Node node = new Patrol(blackBoard, radius, periodMin, periodMax);
+            Attach(_current, node);
+            _current = _compositeStack.Count > 0 ? _compositeStack.Peek() : null;
+            return this;
+        }
 
         public void Attach(Node parent, Node child)
         {

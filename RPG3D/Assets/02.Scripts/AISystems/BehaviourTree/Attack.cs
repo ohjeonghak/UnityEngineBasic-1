@@ -28,6 +28,7 @@ namespace RPG.AISystems.BehaviourTree
                     controller.ChangeState(State.Attack);
                 }
             }
+
             
             blackBoard.agent.isStopped = true;
             return Result.Running;

@@ -49,10 +49,12 @@ namespace RPG.AISystems.BehaviourTree
 
                                 if (NavMesh.SamplePosition(expected, out NavMeshHit hit, float.PositiveInfinity, NavMesh.AllAreas))
                                 {
+                                    blackBoard.agent.isStopped = false;
                                     blackBoard.agent.SetDestination(hit.position);
                                 }
                                 else
                                 {
+                                    blackBoard.agent.isStopped = true;
                                     _behaviour = 0;
                                 }
                             }
@@ -67,6 +69,10 @@ namespace RPG.AISystems.BehaviourTree
                             _timeMark = 0.0f;
                             return Result.Success;
                         }
+                        else
+                        {
+                            return Result.Running;
+                        }
                         break;
                     default:
                         break;
@@ -74,7 +80,7 @@ namespace RPG.AISystems.BehaviourTree
                             
             }
            
-            return Result.Running;
+            return Result.Failure;
         }
     }
 }

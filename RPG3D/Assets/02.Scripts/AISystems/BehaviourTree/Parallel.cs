@@ -45,7 +45,7 @@ namespace RPG.AISystems.BehaviourTree
                         successCount++;
                         break;
                     case Result.Running:
-                        owner.stack.Push(children[i]);
+                        
                         return Result.Running;
                     default:
                         break;

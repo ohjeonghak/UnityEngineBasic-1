@@ -1,7 +1,7 @@
 using RPG.AISystems.BehaviourTree;
 using Tree = RPG.AISystems.BehaviourTree.Tree;
 using UnityEngine;
-
+using UnityEngine.AI;
 
 [RequireComponent(typeof(Tree))]
 public class EnemyController : CharacterController
@@ -22,7 +22,9 @@ public class EnemyController : CharacterController
     [SerializeField] private LayerMask _seekMask;
     [SerializeField] private Vector3 _seekOffset;
     [SerializeField] private float _attackRange;
-
+    [SerializeField] private float _patrolRadius;
+    [SerializeField] private float _patrolperiodMin;
+    [SerializeField] private float _patrolperiodMax;
    
 
     private void Start()
@@ -41,16 +43,34 @@ public class EnemyController : CharacterController
 
         aiTree = GetComponent<Tree>();
         aiTree.StartBuild()
-            .Sequence()
-                .Seek(_seekRadius, _seekAngle, _seekMask, _seekOffset)
-                .Condition(() =>
-                {
-                    return Vector3.Distance(transform.position, aiTree.blackBoard.target.position) <= _attackRange;
-                })
-                    .Attack();
+             .Selector()
+                .Parallel(Parallel.Policy.RequireOne)
+                    .Seek(_seekRadius, _seekAngle, _seekMask, _seekOffset)
+                    .Condition(() =>
+                    {
+                        if (aiTree.blackBoard.target != null)
+                            return Vector3.Distance(transform.position, aiTree.blackBoard.target.position) <= _attackRange;
+                        else
+                            return false;
+
+                    })
+                        .Attack()
+                  .ExitCurrentComoposite()
+                  .Patrol(_patrolRadius, _patrolperiodMin, _patrolperiodMax);
 
         
     }
+
+    protected override void Update()
+    {
+        NavMeshAgent agent = aiTree.blackBoard.agent;
+        _moveGain = agent.speed;
+        _vertical = Vector3.Dot(transform.forward, agent.velocity);
+        _horizontal = Vector3.Dot(transform.right, agent.velocity);
+
+        base.Update();
+    }
+
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
