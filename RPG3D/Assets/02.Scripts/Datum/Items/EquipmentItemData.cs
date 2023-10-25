@@ -1,3 +1,5 @@
+using RPG.GameElements;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum BodyPart
@@ -19,6 +21,7 @@ public class EquipmentItemData : UsableItemData
 {
     public BodyPart bodyPart;
     public int levelRequired;
+    public List<StatModifier> statModifiers;
     public override void Use()
     {
     }

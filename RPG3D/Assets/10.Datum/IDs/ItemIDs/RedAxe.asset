@@ -9,7 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51d5d46c008d13743bd3df06fe4b1984, type: 3}
+  m_Script: {fileID: 11500000, guid: d8fecafd004dd7e46947fb1037850fda, type: 3}
   m_Name: RedAxe
   m_EditorClassIdentifier: 
-  value: 20000
+  id: {fileID: 11400000, guid: 07ff19e06ad94df4893882df3644b9b7, type: 2}
+  icon: {fileID: 0}
+  description: 
+  numMax: 0
+  buyPrice: 20000
+  sellPrice: 10000
+  model: {fileID: 0}
+  bodyPart: 7
+  levelRequired: 10
+  statModifiers: []

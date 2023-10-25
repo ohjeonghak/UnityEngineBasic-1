@@ -1,4 +1,6 @@
+using RPG.GameElements;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngineInternal;
@@ -53,13 +55,16 @@ public abstract class CharacterController : MonoBehaviour
     [SerializeField] private float _slope = 45.0f;
     private Rigidbody _rigidbody;
 
+    
     public virtual bool useAI
     {
         get => _useAi; 
         set => _useAi = value;
     }
-    [SerializeField] private bool _useAi;
 
+    [SerializeField] private bool _useAi;
+    [Header("Stats")]
+    public List<Stat> stats;
 
     protected virtual void Awake()
     {
