@@ -73,7 +73,7 @@ namespace RPG.AISystems.BehaviourTree
                         {
                             return Result.Running;
                         }
-                        break;
+                        
                     default:
                         break;
                 }

@@ -19,10 +19,10 @@ namespace RPG.AISystems.BehaviourTree
             {
                 if (i <= currentIndex)
                     continue;
-                Debug.Log($"[Tree] : Invoking ... {children[i]}");
+                //Debug.Log($"[Tree] : Invoking ... {children[i]}");
 
                 result = children[i].Invoke();
-                Debug.Log($"[Tree] : invoked ... {children[i]} , result : {result}");
+                //Debug.Log($"[Tree] : invoked ... {children[i]} , result : {result}");
                 switch (result)
                 {
                     case Result.Failure:
