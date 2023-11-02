@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace RPG.EventSystems
         {
             base.Awake();
 
-            if (main != null)
+            if (main = null)
                main = this;
             
         }
@@ -58,6 +59,11 @@ namespace RPG.EventSystems
             }
             hovered = default;
             return false;
+        }
+
+        internal bool TryGetHovered<T1, T2>(out T2 canvasRenderer)
+        {
+            throw new NotImplementedException();
         }
     }
 }

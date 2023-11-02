@@ -1,6 +1,9 @@
+using RPG.EventSystems;
 using RPG.GameSystems;
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace RPG.UI
 {
@@ -16,6 +19,7 @@ namespace RPG.UI
         public bool inputActionEnabled { get ; set ; }
 
         protected Canvas canvas;
+        [SerializeField] private bool _hideWhenClickedOutside;
 
         public event Action onShow;
         public event Action onHide;
@@ -37,6 +41,48 @@ namespace RPG.UI
         {
             canvas = GetComponent<Canvas>();
             UIManager.instance.Register(this);
+
+            if (_hideWhenClickedOutside )
+            {
+                GameObject outSidePanel = new GameObject("OutsideTrigger");
+                outSidePanel.transform.SetParent(transform);
+                outSidePanel.transform.SetAsFirstSibling();
+                Image image = outSidePanel.AddComponent<Image>();
+                image.color = new Color(0.0f, 0.0f, 0.0f, 0.5f);
+
+                RectTransform rect = outSidePanel.GetComponent<RectTransform>();
+                rect.anchorMin = Vector2.zero;
+                rect.anchorMax = Vector2.one;
+                rect.pivot = Vector2.one * 0.5f;
+
+                EventTrigger trigger = outSidePanel.AddComponent<EventTrigger>();
+                EventTrigger.Entry entry = new EventTrigger.Entry();
+                entry.eventID = EventTriggerType.PointerDown;
+                entry.callback.AddListener(eventData => Hide());
+                trigger.triggers.Add(entry);
+            }
+        }
+
+        protected virtual void InputAction()
+        {
+            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) 
+            {
+                if (CustomInputModule.main.TryGetHovered<GraphicRaycaster,CanvasRenderer>
+                    (out CanvasRenderer canvasRenderer))
+                {
+                    if (canvasRenderer.transform.root.TryGetComponent(out UIMonoBehaviuor ui) &&
+                        ui != this)
+                    {
+                        UIManager.instance.Push(ui);
+                        ui.InputAction();
+                    }
+                }
+            }
+        }
+        private void Update()
+        {
+            if (inputActionEnabled)
+                InputAction();
         }
     }
 }
