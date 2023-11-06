@@ -1,3 +1,4 @@
+using RPG.EventSystems;
 using RPG.Singleton;
 using System;
 using System.Collections.Generic;
@@ -55,6 +56,8 @@ namespace RPG.UI
                                 
             if (showns.Count == 1)
             {
+                InputManager.instance.current = "PopUpUI";
+
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.Confined;
             }
@@ -74,6 +77,8 @@ namespace RPG.UI
                         
             if(showns.Count == 0)
             {
+                InputManager.instance.current = "Player";
+
                 Cursor.visible = false;
                 Cursor.lockState= CursorLockMode.Locked;
             }
