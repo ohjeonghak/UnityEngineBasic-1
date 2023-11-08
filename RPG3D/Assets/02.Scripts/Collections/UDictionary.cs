@@ -1,3 +1,4 @@
+using RPG.DataModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -45,5 +46,15 @@ public class UDictionary<TKey, TValue> : ISerializationCallbackReceiver
         {
             _dictionary.Add(pair.key, pair.value);
         }
+    }
+
+    internal bool ContainsKey(Type type)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal bool TryAdd<T>(Type type, T dataModel) where T : IDataModel
+    {
+        throw new NotImplementedException();
     }
 }
