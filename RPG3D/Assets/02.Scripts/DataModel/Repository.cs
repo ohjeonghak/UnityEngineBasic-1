@@ -2,6 +2,8 @@ using RPG.Singleton;
 using System;
 using UnityEngine;
 using System.IO;
+using UnityEditor;
+using System.Collections.Generic;
 
 
 
@@ -9,7 +11,7 @@ namespace RPG.DataModel
 {
     public class Repository : Singleton<Repository> 
     {
-        private UDictionary<Type, IDataModel> _mapper = new UDictionary<Type, IDataModel> ();
+        private Dictionary<Type, IDataModel> _mapper = new Dictionary<Type, IDataModel> ();
 
         public T Get<T>()
             where T : IDataModel
@@ -35,6 +37,16 @@ namespace RPG.DataModel
             T dataModel = File.Exists(path) ?
                 JsonUtility.FromJson<T>(File.ReadAllText(path)) :
                 Activator.CreateInstance<T>();
+
+            if (File.Exists(path))
+            {
+                dataModel = JsonUtility.FromJson<T>(File.ReadAllText(path));
+            }
+            else
+            {
+                dataModel= Activator.CreateInstance<T>();
+                Save<T>();
+            }
             
             if (_mapper.TryAdd(typeof(T), dataModel))
                 _mapper[typeof(T)] = dataModel;
