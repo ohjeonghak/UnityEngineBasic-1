@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace RPG.DataModel
 {
+    [Serializable]
     public struct SlotData : IEquatable<SlotData>
     {
         public int itemID; 

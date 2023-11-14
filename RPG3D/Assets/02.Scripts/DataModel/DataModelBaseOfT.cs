@@ -47,7 +47,12 @@ namespace RPG.DataModel
 
         public List<Pair<T>> m_items;
 
-        
+        public void RequestReadAll(Action<Pair<T>[]> onSuccses)
+        {
+            Pair<T>[] tmp = new Pair<T>[m_items.Count];
+            m_items.CopyTo(tmp);
+            onSuccses?.Invoke(tmp);
+        }
             
 
 
