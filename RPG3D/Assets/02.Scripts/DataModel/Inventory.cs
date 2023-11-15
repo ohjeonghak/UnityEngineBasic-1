@@ -7,19 +7,21 @@ namespace RPG.DataModel
     [Serializable]
     public struct SlotData : IEquatable<SlotData>
     {
-        public int itemID; 
-        public int itmeNum;
+        public bool isEmpty => itemID <= 0 && itemNum <= 0;
 
-        public SlotData(int itemID, int itmeNum)
+        public int itemID; 
+        public int itemNum;
+
+        public SlotData(int itemID, int itemNum)
         {
             this.itemID = itemID;
-            this.itmeNum = itmeNum;
+            this.itemNum = itemNum;
         }
 
         public bool Equals(SlotData other)
         {
             return (itemID == other.itemID &&
-                    itmeNum == other.itmeNum);    
+                    itemNum == other.itemNum);    
         }
     }
 
