@@ -189,6 +189,7 @@ namespace RPG.DependencySource
                         = new InventorySource(data.Select(x => x.item));
                 });
             addCommand = new AddCommand(this);
+            removeCommand = new RemoveCommand(this);
         }
     }
 }
