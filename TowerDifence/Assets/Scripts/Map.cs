@@ -1,14 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using UnityEditor;
 using UnityEngine;
 
-public struct Node
-{
-    public Coord coord;
-    public int layer;
-    public int itemID;
-}
 
+[Serializable]
 public struct Coord
 {
     public static Coord up => new Coord(0, 1);
@@ -17,7 +12,7 @@ public struct Coord
     public static Coord left => new Coord(-1, 0);
 
 
-    int x, y;
+    public int x, y;
 
     public Coord (int x, int y)
     {
@@ -40,5 +35,109 @@ public struct Coord
 
 public class Map : MonoBehaviour
 {
+    public struct Node
+    {
+        public Coord coord;
+        public int layer;
+        public int itemID;
+
+        public Node(Coord coord, int layerm, int itemID = 0)
+        {
+            this.coord = coord;
+            this.layer = layerm;
+            this.itemID = itemID;
+        }
+    }
+
     public Node[,] nodes;
+
+    [SerializeField] private Vector2 _origin;
+    [SerializeField] private Coord _length;
+    [SerializeField] private LayerMask _nodeMask;
+    private Grid _grid;
+
+    public Node GetNode(Vector2 point)
+    {
+        Coord coord = VectorToCoord(point);
+        return nodes[coord.y, coord.x];
+    }
+
+    public Vector2 CoordToVector(Coord coord)
+    {
+        return _origin +
+               coord.x * Vector2.right * _grid.cellSize.x / 2.0f +
+               coord.x * Vector2.up * _grid.cellSize.y / 2.0f +
+               coord.y * Vector2.left * _grid.cellSize.x / 2.0f +
+               coord.y * Vector2.up * _grid.cellSize.y / 2.0f;
+
+
+
+
+    }   
+
+    public  Coord VectorToCoord(Vector2 point)
+    {
+        Vector2 rel = point - _origin;
+        rel=
+            new Vector2(rel.x / (+_grid.cellSize.x / 2.0f + _grid.cellSize.y / 2.0f),
+                        rel.y / (-_grid.cellSize.x / 2.0f + _grid.cellSize.y / 2.0f));
+        return new Coord(Mathf.RoundToInt(rel.x), Mathf.RoundToInt(rel.y));
+    }
+
+    private void Awake()
+    {
+        _grid = GetComponent<Grid>();
+    }
+
+    private void ArrangeMapNodes()
+    {
+
+        for (int i = 0; i < _length.y; i++)
+        {
+            for (int j = 0; j < _length.x; j++)
+            {
+                Coord coord = new Coord(j, i);
+                Vector2 point = CoordToVector(coord);
+
+                Collider2D col =
+                     Physics2D.OverlapPoint(point, _nodeMask);
+
+                int layer = col ? col.gameObject.layer : 0;
+                MapNode node = new GameObject("Node").AddComponent<MapNode>();
+                node.transform.position = point;
+
+            }
+        }
+    }
+
+    private void SetUp()
+    {
+
+        for (int i = 0; i < _length.y; i++)
+        {
+            for (int j = 0; j < _length.x; j++)
+            {
+                Coord coord = new Coord(j, i);
+                Vector2 point = CoordToVector(coord);
+
+                Collider2D col =
+                     Physics2D.OverlapPoint(point, _nodeMask);
+
+                int layer = col ? col.gameObject.layer : 0;
+                nodes[j, i] = new Node(coord, layer);
+               
+
+            }
+        }
+
+    }
+
+    private void OnGUI()
+    {
+        if (GUI.Button(new Rect(20, 40, 80, 20), "Arrange Map Nodes"))
+        {
+            ArrangeMapNodes();
+        }
+    }
+
 }
