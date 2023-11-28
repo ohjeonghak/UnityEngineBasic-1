@@ -32,7 +32,7 @@ public class Map : MonoBehaviour
     public void Register(MapNode mapNode)
     {
         Coord coord = VectorToCoord(mapNode.transform.position);
-        nodes[coord.x, coord.y] = new Node(coord, mapNode.gameObject.layer, mapNode);
+        nodes[coord.y, coord.x] = new Node(coord, mapNode.gameObject.layer, mapNode);
         Debug.Log($"Registered {coord.x}, {coord.y} !");
     }
 
