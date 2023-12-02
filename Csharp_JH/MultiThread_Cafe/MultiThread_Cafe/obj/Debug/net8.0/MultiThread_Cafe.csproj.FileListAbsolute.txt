@@ -1,0 +1,15 @@
+C:\Users\PC\Desktop\오방구\GitHub\UnityEngineBasic-1\Csharp_JH\MultiThread_Cafe\MultiThread_Cafe\bin\Debug\net8.0\MultiThread_Cafe.exe
+C:\Users\PC\Desktop\오방구\GitHub\UnityEngineBasic-1\Csharp_JH\MultiThread_Cafe\MultiThread_Cafe\bin\Debug\net8.0\MultiThread_Cafe.deps.json
+C:\Users\PC\Desktop\오방구\GitHub\UnityEngineBasic-1\Csharp_JH\MultiThread_Cafe\MultiThread_Cafe\bin\Debug\net8.0\MultiThread_Cafe.runtimeconfig.json
+C:\Users\PC\Desktop\오방구\GitHub\UnityEngineBasic-1\Csharp_JH\MultiThread_Cafe\MultiThread_Cafe\bin\Debug\net8.0\MultiThread_Cafe.dll
+C:\Users\PC\Desktop\오방구\GitHub\UnityEngineBasic-1\Csharp_JH\MultiThread_Cafe\MultiThread_Cafe\bin\Debug\net8.0\MultiThread_Cafe.pdb
+C:\Users\PC\Desktop\오방구\GitHub\UnityEngineBasic-1\Csharp_JH\MultiThread_Cafe\MultiThread_Cafe\obj\Debug\net8.0\MultiThread_Cafe.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PC\Desktop\오방구\GitHub\UnityEngineBasic-1\Csharp_JH\MultiThread_Cafe\MultiThread_Cafe\obj\Debug\net8.0\MultiThread_Cafe.AssemblyInfoInputs.cache
+C:\Users\PC\Desktop\오방구\GitHub\UnityEngineBasic-1\Csharp_JH\MultiThread_Cafe\MultiThread_Cafe\obj\Debug\net8.0\MultiThread_Cafe.AssemblyInfo.cs
+C:\Users\PC\Desktop\오방구\GitHub\UnityEngineBasic-1\Csharp_JH\MultiThread_Cafe\MultiThread_Cafe\obj\Debug\net8.0\MultiThread_Cafe.csproj.CoreCompileInputs.cache
+C:\Users\PC\Desktop\오방구\GitHub\UnityEngineBasic-1\Csharp_JH\MultiThread_Cafe\MultiThread_Cafe\obj\Debug\net8.0\MultiThread_Cafe.sourcelink.json
+C:\Users\PC\Desktop\오방구\GitHub\UnityEngineBasic-1\Csharp_JH\MultiThread_Cafe\MultiThread_Cafe\obj\Debug\net8.0\MultiThread_Cafe.dll
+C:\Users\PC\Desktop\오방구\GitHub\UnityEngineBasic-1\Csharp_JH\MultiThread_Cafe\MultiThread_Cafe\obj\Debug\net8.0\refint\MultiThread_Cafe.dll
+C:\Users\PC\Desktop\오방구\GitHub\UnityEngineBasic-1\Csharp_JH\MultiThread_Cafe\MultiThread_Cafe\obj\Debug\net8.0\MultiThread_Cafe.pdb
+C:\Users\PC\Desktop\오방구\GitHub\UnityEngineBasic-1\Csharp_JH\MultiThread_Cafe\MultiThread_Cafe\obj\Debug\net8.0\MultiThread_Cafe.genruntimeconfig.cache
+C:\Users\PC\Desktop\오방구\GitHub\UnityEngineBasic-1\Csharp_JH\MultiThread_Cafe\MultiThread_Cafe\obj\Debug\net8.0\ref\MultiThread_Cafe.dll
